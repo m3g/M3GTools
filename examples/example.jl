@@ -2,6 +2,8 @@
 push!(LOAD_PATH,"../src")
 
 using Namd
+
+println("Loading Plots...")
 using Plots
 
 function main()
