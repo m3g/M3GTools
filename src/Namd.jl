@@ -111,6 +111,7 @@ module Namd
     Base.write(vmd_input,"set sel [ atomselect top \"$selection\" ] \n")
     Base.write(vmd_input,"puts \"INDEXLIST\" \n")
     Base.write(vmd_input,"set indexes [ \$sel get index ] \n")
+    Base.write(vmd_input,"puts \"ENDINDEXLIST\" \n")
     Base.write(vmd_input,"exit \n")
     Base.close(vmd_input)
 
@@ -118,6 +119,9 @@ module Namd
 
     for line in split(vmd_output,"\n")
       if readnext
+        if line == "ENDINDEXLIST" 
+          error("ERROR: Selection does not contain any atom")
+        end 
         index_list = line
         break
       end
@@ -134,7 +138,7 @@ module Namd
 
     run(`\rm -f ./VMDINPUT_TMP.VMD`)
 
-    return nsel, selection
+    return selection
 
   end
 

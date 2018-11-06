@@ -15,8 +15,8 @@ function main()
   mass = Namd.mass()
 
   println("Defining selections...")
-  npopc, popc = Namd.select("resname POPC")
-  nprot, prot = Namd.select("protein")
+  popc = Namd.select("resname POPC")
+  prot = Namd.select("protein")
   
   println("Computing center of masses...")
   popc_cm = Array{Float32}(undef,Namd.nframes,3)
