@@ -10,55 +10,26 @@ module Namd
   natoms = 0
   nframes = 0
   dcdaxis = true
+  psffile = "none"
+  dcdfile = "none"
+  mass = Vector{}
+  vmd_exec="vmd"
   
   # 
-  # Set name of PSF file
+  # Initialize simulation data
   #
 
-  psffile="none"
-  function psf(user_psf_file) 
-    global psffile = user_psf_file
-  end
-  function checkpsf(psffile)
-   if psffile == "none"
-     error("ERROR: You must define the psf file first, with: namd.psf(\"file.psf\")")
-   end
-  end
+  function init(;psf=psfile,
+                 dcd=dcdfile,
+                 vmd=vmd_exec)
 
-  #
-  # Get number of atoms from psf file 
-  #
-  
-  function psf_natoms(;psffile=psffile)
+    global psffile = psf
+    global dcdfile = FortranFile(dcd)
+    global vmd_exec = vmd
 
-    checkpsf(psffile)
-
-    file = Base.open(psffile)
-    natoms = 0
-    for line in eachline(file)
-      data = split(line)
-      if length(data) > 1 
-        if data[2] == "!NATOM"
-          natoms = parse(Int64,data[1]) 
-          break
-        end 
-      end 
-    end 
-    Base.close(file)
-
-    return natoms
-
-  end
-
-  # 
-  # Read masses from PSF file 
-  #
-
-  function mass(;psffile=psffile)
-
-    checkpsf(psffile)
-    mass = Vector{}
-    natoms :: Int64 = 0
+    #
+    # Read number of atoms and masses from PSF file
+    #
 
     file = Base.open(psffile)
     start_atoms = false
@@ -74,34 +45,60 @@ module Namd
       end 
       if length(data) > 1 
         if data[2] == "!NATOM"
-          natoms = parse(Int64,data[1]) 
-          mass = Vector{Float32}(undef,natoms)
+          global natoms = parse(Int64,data[1]) 
+          global mass = Vector{Float32}(undef,natoms)
           start_atoms = true
+          println(" Number of atoms: ", natoms)
         end 
       end 
     end 
     Base.close(file)
+    println(" Masses were read to Namd.mass vector ")
 
-    return mass
+    #
+    # Reads DCD file header, returns nframes (correctly, if set) and ntotat
+    #
 
-  end
-  
-  #
-  # Set vmd executable
-  #
+    Dint1 = Vector{Int32}(undef, 8)
+    Dint2 = Vector{Int32}(undef, 9)
+    dummyc, read_nframes, Dint1, dummyr, Dint2 = read(dcdfile, FString{4}, Int32, (Int32,8), Float32, (Int32,9))
+    dummyi, dummyr = read(dcdfile, Int32, Float32)
+    read_natoms = read(dcdfile,Int32) 
+    if read_natoms != natoms
+      error("ERROR: Number of atoms in PSF file differs from that in DCD file.")
+    end
 
-  vmd_exec = "vmd"
-  function vmd(user_vmd_exec)
-    global vmd_exec = user_vmd_exec
+    global nframes = read_nframes
+    println(" Number of frames in DCD file: ", nframes)
+
+    # Check if dcd file contains axis information
+ 
+    x = 0.
+    try
+      x = read(dcdfile, [ Float32 for i in 1:natoms ])
+      dcdaxis = false
+    catch err
+      dcdaxis = true
+    end
+    if dcdaxis 
+      println(" DCD contains periodic cell data. ")
+    else
+      println(" WARNING: DCD does NOT contain periodic cell data! ")
+    end
+
+    # Rewind the file and jump to first frame again
+    rewind(dcdfile)
+    for i in 1:3
+      read(dcdfile)
+    end
+
   end
 
   # 
   # Select atoms using vmd selection syntax, with vmd in background
   #
 
-  function select(selection;psffile=psffile,vmd_exec=vmd_exec)
-
-    checkpsf(psffile)
+  function select(selection)
 
     index_list = String
     readnext = false
@@ -143,56 +140,11 @@ module Namd
   end
 
   #
-  # Read DCD files
+  # Fuctions to read the DCD file
   #
 
   closedcd() = close(dcdfile)
   rewinddcd() = rewind(dcdfile)
-
-  #
-  # Set name of dcd file 
-  # 
-
-  function checkdcd(dcdfile)
-   if dcdfile == "none"
-     error("ERROR: You must define the DCD file first, with: namd.dcd(\"file.dcd\")")
-   end
-  end
-
-  #
-  # Reads DCD file header, returns nframes (correctly, if set) and ntotat
-  #
-
-  dcdfile="none"
-  function dcd(user_dcdfile)
-
-    global dcdfile = FortranFile(user_dcdfile)
-   
-    Dint1 = Vector{Int32}(undef, 8)
-    Dint2 = Vector{Int32}(undef, 9)
-    dummyc, read_nframes, Dint1, dummyr, Dint2 = read(dcdfile, FString{4}, Int32, (Int32,8), Float32, (Int32,9))
-    dummyi, dummyr = read(dcdfile, Int32, Float32)
-    read_natoms = read(dcdfile,Int32)
-
-    global natoms = read_natoms
-    global nframes = read_nframes
-
-    # Check if dcd file contains axis information
- 
-    x = 0.
-    try
-      x = read(dcdfile, [ Float32 for i in 1:natoms ])
-      dcdaxis = false
-    catch err
-      dcdaxis = true
-    end
-
-    rewind(dcdfile)
-    for i in 1:3
-      read(dcdfile)
-    end
-
-  end
 
   #function nframes(dcdfile, dcdaxis, lastframe) 
   #  checkdcd(dcdfile)
@@ -207,13 +159,15 @@ module Namd
   #  return nframes
   #end
 
-  function nextframe(;dcdfile=dcdfile)
+  function nextframe()
 
     if natoms == 0
       error("ERROR: Set natoms before reading frames with namd.header()")
     end
     
-    sides_read = read(dcdfile,(Float64,6))
+    if dcdaxis 
+      sides_read = read(dcdfile,(Float64,6))
+    end
     x = read(dcdfile,(Float32,natoms))
     y = read(dcdfile,(Float32,natoms))
     z = read(dcdfile,(Float32,natoms))
@@ -223,6 +177,10 @@ module Namd
     return sides, x, y, z
 
   end
+
+  #
+  # This function computes the center of mass of a selection
+  #
   
   function cm(selection,mass,x,y,z)
   
