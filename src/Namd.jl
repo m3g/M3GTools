@@ -135,6 +135,7 @@ module Namd
 
     run(`\rm -f ./VMDINPUT_TMP.VMD`)
 
+    println(" Selection contains ",nsel," atoms ")
     return selection
 
   end

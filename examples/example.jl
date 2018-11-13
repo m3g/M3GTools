@@ -12,7 +12,7 @@ function main()
   println(" Reading simulation data ... ")
   Namd.init(psf="./structure.psf",
             dcd="./structure.dcd",
-            vmd="/usr/bin/vmd")
+            vmd="vmd")
 
   println(" Defining selections... ")
   popc = Namd.select("resname POPC")
