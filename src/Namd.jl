@@ -14,6 +14,20 @@ module Namd
   dcdfile = "none"
   mass = Vector{}
   vmd_exec="vmd"
+
+  #struct Atom
+  #  index ::  Int64
+  #  mass :: Float64
+  #  charge :: Float64
+  #  type :: FString{4}
+  #  class :: FString{4}
+  #  resname :: FString{4}
+  #  resid :: Int64
+  #  segname :: Fstring{4}
+  #end 
+  #atom(;index=0,mass=0.,charge=0.,type="X",
+  #      class="X,resname="XXX",resid=0,segname="XXXX") =
+  #     Atom(index,mass,charge,type,class,resname,resid,segname)
   
   # 
   # Initialize simulation data
@@ -59,15 +73,15 @@ module Namd
     # Reads DCD file header, returns nframes (correctly, if set) and ntotat
     #
 
-    Dint1 = Vector{Int32}(undef, 8)
-    Dint2 = Vector{Int32}(undef, 9)
-    dummyc, read_nframes, Dint1, dummyr, Dint2 = read(dcdfile, FString{4}, Int32, (Int32,8), Float32, (Int32,9))
-    dummyi, dummyr = read(dcdfile, Int32, Float32)
+    IntVec = Vector{Int32}(undef,17)
+    hdr, read_nframes, IntVec[1:8], ts, IntVec[9:17] = 
+      read(dcdfile, FString{4}, Int32, (Int32,8), Float64, (Int32,9))
+    dummyi, title = read(dcdfile, Int32, FString{80})
     read_natoms = read(dcdfile,Int32) 
+
     if read_natoms != natoms
       error("ERROR: Number of atoms in PSF file differs from that in DCD file.")
     end
-
     global nframes = read_nframes
     println(" Number of frames in DCD file: ", nframes)
 
@@ -98,10 +112,21 @@ module Namd
   # Select atoms using vmd selection syntax, with vmd in background
   #
 
-  function select(selection)
+  function select(selection;update=false,
+                            sides=Vector{},
+                            x=Vector{},
+                            y=Vector{},
+                            z=Vector{})
 
     index_list = String
     readnext = false
+
+    # If the selection has to be updated at every frame, we need
+    # to write a temporary DCD file here to VMD
+
+    if update
+      writedcd(natoms,1,dcdaxis,sides,x,y,z;filename="Namdjl_DCDTEMP.dcd")
+    end
 
     vmd_input = Base.open("./VMDINPUT_TMP.VMD","w")
     Base.write(vmd_input,"mol new \"$psffile\" \n")
@@ -117,7 +142,7 @@ module Namd
     for line in split(vmd_output,"\n")
       if readnext
         if line == "ENDINDEXLIST" 
-          error("ERROR: Selection does not contain any atom")
+          error("ERROR: Selection '$selection' does not contain any atom")
         end 
         index_list = line
         break
@@ -128,15 +153,17 @@ module Namd
     end
     index_split = split(index_list)
     nsel = length(index_split)
-    selection = Vector{Int64}(undef,nsel) 
+    selection_indexes = Vector{Int64}(undef,nsel) 
     for i in 1:nsel
-      selection[i] = parse(Int64,index_split[i]) + 1
+      selection_indexes[i] = parse(Int64,index_split[i]) + 1
     end
 
     run(`\rm -f ./VMDINPUT_TMP.VMD`)
 
-    println(" Selection contains ",nsel," atoms ")
-    return selection
+    if ! update 
+      println(" Selection '$selection' contains ",nsel," atoms ")
+    end
+    return selection_indexes
 
   end
 
@@ -176,6 +203,51 @@ module Namd
     sides = [ sides_read[1], sides_read[3], sides_read[6] ]
 
     return sides, x, y, z
+
+  end
+
+  #
+  # Function that writes a dcd file
+  #
+
+  function writedcd(natoms,nframes,dcdaxis,sides,x,y,z;filename="Namdjl_DCDTEMP.dcd")
+
+    dcdtemp = FortranFile(filename,"w";marker=RECMRK4B)
+
+    IntVec = Vector{Int32}(undef,17)
+
+    #hdr, read_nframes, IntVec[1:8], ts, IntVec[9:17] = 
+    #  read(dcdfile, FString{4}, Int32, (Int32,8), Float64, (Int32,9))
+    #dummyi, title = read(dcdfile, Int32, FString{80})
+    #read_natoms = read(dcdfile,Int32) 
+
+    hdr = "CORD"
+    IntVec = [0 for i in 1:17]
+    ts = 0.
+
+#voltar: não funcionou
+    write(dcdtemp,FString(4,hdr),Int32(nframes),IntVec[1:8],Float64(ts),IntVec[9:17])
+    write(dcdtemp,Int32(1),FString(80,"DCDTEMP created by Namdjl"))
+    write(dcdtemp,Int32(natoms))
+
+    if nframes == 1 
+      if dcdaxis
+        write(dcdtemp,Float64(sides[1]),0.,Float64(sides[2]),0.,0.,Float64(sides[3]))
+      end
+      write(dcdtemp,x)
+      write(dcdtemp,y)
+      write(dcdtemp,z)
+    #else
+    #  for i in 1:nframes
+    #    if dcdaxis
+    #      write(dcdtemp,Float64(sides[i,1]),0.,Float64(sides[i,2]),0.,0.,Float64(sides[i,3]))
+    #    end
+    #    write(dcdtemp,(x[i,j],j=1,natoms))
+    #    write(dcdtemp,(y[i,j],j=1,natoms))
+    #    write(dcdtemp,(z[i,j],j=1,natoms))
+    #  end
+    end
+    close(dcdtemp)
 
   end
 
