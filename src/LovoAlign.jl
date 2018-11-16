@@ -1,9 +1,22 @@
 
 module LovoAlign
 
+  export Pair
+
+  #struct Pair
+  #  p1 :: String
+  #  p2 :: String
+  #  TMScore :: Float64
+  #end
+  #Pair(;p1=p1,p2=p2) = Pair(p1,p2)
+
   function nonseq(pdb1,pdb2,sel1,sel2,output;
                   vmd_exec="vmd",
                   lovoalign_exec="lovoalign")
+
+    if pdb1 == output || pdb2 == output
+      error("ERROR: Output file has the same name of one of input files.")
+    end
 
     vmd_input = open("./LovoAlign_VMDINPUT_TMP.VMD","w")
     write(vmd_input,"""
