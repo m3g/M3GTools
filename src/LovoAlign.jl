@@ -1,8 +1,9 @@
 
 module LovoAlign
 
-  export Pair
+  using Random
 
+  #export Pair
   #struct Pair
   #  p1 :: String
   #  p2 :: String
@@ -10,59 +11,118 @@ module LovoAlign
   #end
   #Pair(;p1=p1,p2=p2) = Pair(p1,p2)
 
+  #
+  # Perform a general, non-sequential alignment, using the Non-Bijective method
+  #
+
   function nonseq(pdb1,pdb2,sel1,sel2,output;
                   vmd_exec="vmd",
                   lovoalign_exec="lovoalign",
-                  print=false)
+                  debug=false)
 
-    if pdb1 == output || pdb2 == output
-      error("ERROR: Output file has the same name of one of input files.")
-    end
+    checkpdbs(pdb1,pdb2,output)
 
-    vmd_input = open("./LovoAlign_VMDINPUT_TMP.VMD","w")
-    write(vmd_input,"""
-                    mol new \"$pdb1\"
-                    set all [ atomselect top all ]
-                    \$all set beta 0
-                    set sel [ atomselect top \"$sel1\" ]
-                    \$sel set beta 1
-                    \$all writepdb ./LovoAlign_sel1.pdb
-                    \$all delete
-                    \$sel delete
-                    
-                    mol new \"$pdb2\"
-                    set all [ atomselect top all ]
-                    \$all set beta 0
-                    set sel [ atomselect top \"$sel2\" ]
-                    \$sel set beta 1
-                    \$all writepdb ./LovoAlign_sel2.pdb
-                    \$all delete
-                    \$sel delete
-                    
-                    exit
-                    """)
-    close(vmd_input)
+    # Define first selection using VMD
+    sel1_pdb = set_selection_pdb(pdb1,sel1,vmd_exec=vmd_exec)
 
-    # Run VMD
-    vmd_output = read(`$vmd_exec -dispdev text -e ./LovoAlign_VMDINPUT_TMP.VMD`,String)
+    # Define second selection using VMD
+    sel2_pdb = set_selection_pdb(pdb2,sel2,vmd_exec=vmd_exec,debug=debug)
 
-    # Run LovoAlign
+    # Run LovoAlign for general non-sequential alignment
     lovoalign_output=read(
-     `$lovoalign_exec -p1 LovoAlign_sel1.pdb -p2 LovoAlign_sel2.pdb -g 0. -beta1 -beta2 -m 3 -all -nglobal 50 -dtri 10. -o $output`,
+     `$lovoalign_exec -p1 $sel1_pdb -p2 $sel2_pdb -g 0. -beta1 -beta2 -m 3 -all -nglobal 50 -dtri 10. -o $output`,
      String)
  
     # Remove temporary files
-    run(`\rm -f ./LovoAlign_VMDINPUT_TMP.VMD`)
-    run(`\rm -f ./LovoAlign_sel1.pdb`)
-    run(`\rm -f ./LovoAlign_sel2.pdb`)
+    run(`\rm -f $sel1_pdb`)
+    run(`\rm -f $sel2_pdb`)
 
-    if print
+    if debug
       println(lovoalign_output)
       return
     else
       println("Wrote $output file with $pdb1 aligned to $pdb2")
       return
     end
+
+  end
+
+  #
+  # Perform a maximization of the TM-score 
+  #
+
+  function TMScore(pdb1,pdb2,sel1,sel2,output;
+                   vmd_exec="vmd",
+                   lovoalign_exec="lovoalign",
+                   debug=false)
+
+    checkpdbs(pdb1,pdb2,output)
+
+    # Define first selection using VMD
+    sel1_pdb = set_selection_pdb(pdb1,sel1,vmd_exec=vmd_exec)
+
+    # Define second selection using VMD
+    sel2_pdb = set_selection_pdb(pdb2,sel2,vmd_exec=vmd_exec,debug=debug)
+
+    # Run LovoAlign using default (TMscore) computation
+    lovoalign_output=read(
+     `$lovoalign_exec -p1 $sel1_pdb -p2 $sel2_pdb -o $output`,
+     String)
+ 
+    # Remove temporary files
+    run(`\rm -f $sel1_pdb`)
+    run(`\rm -f $sel2_pdb`)
+
+    if debug
+      println(lovoalign_output)
+      return
+    else
+      println("Wrote $output file with $pdb1 aligned to $pdb2")
+      return
+    end
+
+  end
+
+  #
+  # Function that checks some properteis of the PDB files
+  #
+
+  function checkpdbs(pdb1,pdb2,output)
+
+    if pdb1 == output || pdb2 == output
+      error("ERROR: Output file has the same name of one of input files.")
+    end
+
+  end
+
+  #
+  # Function that calls VMD to define the selected atoms
+  #
+
+  function set_selection_pdb(pdb,sel;vmd_exec="vmd",debug=false)
+
+    rnd_chars=Random.randstring(8)
+    filename = "./LovoAlign__$(rnd_chars)_$pdb"
+    vmd_input_name = "./LovoAlign_$(rnd_chars).vmd"
+    vmd_input = open(vmd_input_name,"w")
+    write(vmd_input,"""
+                    mol new \"$pdb\"
+                    set all [ atomselect top all ]
+                    \$all set beta 0
+                    set sel [ atomselect top \"$sel\" ]
+                    \$sel set beta 1
+                    \$all writepdb $filename
+                    \$all delete
+                    \$sel delete
+                    exit
+                    """)
+    close(vmd_input)
+    vmd_output = read(`$vmd_exec -dispdev text -e $vmd_input_name`,String)
+    if debug
+      println(vmd_output)
+    end
+    run(`\rm -f $vmd_input_name`)
+    return filename
 
   end
 
