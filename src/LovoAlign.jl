@@ -12,7 +12,8 @@ module LovoAlign
 
   function nonseq(pdb1,pdb2,sel1,sel2,output;
                   vmd_exec="vmd",
-                  lovoalign_exec="lovoalign")
+                  lovoalign_exec="lovoalign",
+                  print=false)
 
     if pdb1 == output || pdb2 == output
       error("ERROR: Output file has the same name of one of input files.")
@@ -49,13 +50,19 @@ module LovoAlign
     lovoalign_output=read(
      `$lovoalign_exec -p1 LovoAlign_sel1.pdb -p2 LovoAlign_sel2.pdb -g 0. -beta1 -beta2 -m 3 -all -nglobal 50 -dtri 10. -o $output`,
      String)
-
+ 
     # Remove temporary files
     run(`\rm -f ./LovoAlign_VMDINPUT_TMP.VMD`)
     run(`\rm -f ./LovoAlign_sel1.pdb`)
     run(`\rm -f ./LovoAlign_sel2.pdb`)
 
-    return "Wrote $output file with $pdb1 aligned to $pdb2"
+    if print
+      println(lovoalign_output)
+      return
+    else
+      println("Wrote $output file with $pdb1 aligned to $pdb2")
+      return
+    end
 
   end
 
