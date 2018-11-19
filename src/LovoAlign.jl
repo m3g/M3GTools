@@ -17,9 +17,8 @@ module LovoAlign
   #
 
   function align(x1,x2;
-                 method=1,
+                 method=2,
                  lovoalign_exec="lovoalign",debug=false)
-
 
     rnd_chars=Random.randstring(8)
 
@@ -49,8 +48,9 @@ module LovoAlign
 
     output="LovoAlign_3_$(rnd_chars).pdb"
     lovoalign_output=read(
-     `$lovoalign_exec -p1 $file1_name -p2 $file2_name -m 2 $method -o $output`,
+     `$lovoalign_exec -p1 $file1_name -p2 $file2_name -m $method -o $output`,
      String)
+
     if debug
       println(lovoalign_output)
     end
