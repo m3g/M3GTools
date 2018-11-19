@@ -2,6 +2,7 @@
 module LovoAlign
 
   using Random
+  using PDB
 
   #export Pair
   #struct Pair
@@ -12,23 +13,63 @@ module LovoAlign
   #Pair(;p1=p1,p2=p2) = Pair(p1,p2)
 
   #
-  # Perform a alignment from coordinates, not pdb names
+  # Performs a alignment from coordinates, not pdb names
   #
 
-  function align(x1,x2,y;
+  function align(x1,x2;
+                 method=1,
                  lovoalign_exec="lovoalign",debug=false)
 
-   # Write temporary PDB file to lovoalign
+
+    rnd_chars=Random.randstring(8)
+
+    # Write temporary PDB file to lovoalign
  
-   n1 = size(x1)[1]
-   file = open("1.pdb","w")
-   for i in 1:n1
-     write(file,"ATOM 
+    n1 = size(x1)[1]
+    file1_name = "LovoAlign_1_$(rnd_chars).pdb"
+    file = open(file1_name,"w")
+    for i in 1:n1
+      line = PDB.printatom(i,"CA","GLY","A",i,x1[i,1],x1[i,2],x1[i,3])
+      write(file,line,"\n")
+    end
+    close(file)
+    
+    n2 = size(x2)[1]
+    file2_name = "LovoAlign_2_$(rnd_chars).pdb"
+    file = open(file2_name,"w")
+    for i in 1:n2
+      line = PDB.printatom(i,"CA","GLY","A",i,x2[i,1],x2[i,2],x2[i,3])
+      write(file,line,"\n")
+    end
+    close(file)
 
-   end
+    if n1 < 15 || n2 < 15 
+      method = 3
+    end
+
+    output="LovoAlign_3_$(rnd_chars).pdb"
+    lovoalign_output=read(
+     `$lovoalign_exec -p1 $file1_name -p2 $file2_name -m 2 $method -o $output`,
+     String)
+    if debug
+      println(lovoalign_output)
+    end
+ 
+    y = Array{Float32}(undef,n1,3)
+    file = open(output,"r")
+    i = 0
+    for line in file
+      i = i + 1
+      y[i,1] = parse(Float64,line[31:38])
+      y[i,2] = parse(Float64,line[39:46])
+      y[i,3] = parse(Float64,line[47:54])
+    end
+    close(output)
+
+   run(`\rm -f $file1_name $file2_name $output`)
+
+   return y
    
-voltar
-
   end
 
 
