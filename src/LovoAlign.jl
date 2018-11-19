@@ -58,7 +58,7 @@ module LovoAlign
     y = Array{Float32}(undef,n1,3)
     file = open(output,"r")
     i = 0
-    for line in file
+    for line in eachline(file)
       i = i + 1
       y[i,1] = parse(Float64,line[31:38])
       y[i,2] = parse(Float64,line[39:46])
