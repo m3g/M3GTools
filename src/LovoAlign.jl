@@ -12,6 +12,27 @@ module LovoAlign
   #Pair(;p1=p1,p2=p2) = Pair(p1,p2)
 
   #
+  # Perform a alignment from coordinates, not pdb names
+  #
+
+  function align(x1,x2,y;
+                 lovoalign_exec="lovoalign",debug=false)
+
+   # Write temporary PDB file to lovoalign
+ 
+   n1 = size(x1)[1]
+   file = open("1.pdb","w")
+   for i in 1:n1
+     write(file,"ATOM 
+
+   end
+   
+voltar
+
+  end
+
+
+  #
   # Perform a general, non-sequential alignment, using the Non-Bijective method
   #
 
