@@ -59,12 +59,14 @@ module LovoAlign
     file = open(output,"r")
     i = 0
     for line in eachline(file)
-      i = i + 1
-      y[i,1] = parse(Float64,line[31:38])
-      y[i,2] = parse(Float64,line[39:46])
-      y[i,3] = parse(Float64,line[47:54])
+      if line[1:4] == "ATOM"
+        i = i + 1
+        y[i,1] = parse(Float64,line[31:38])
+        y[i,2] = parse(Float64,line[39:46])
+        y[i,3] = parse(Float64,line[47:54])
+      end
     end
-    close(output)
+    close(file)
 
    run(`\rm -f $file1_name $file2_name $output`)
 
