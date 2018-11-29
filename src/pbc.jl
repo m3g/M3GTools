@@ -8,13 +8,11 @@
 function wrap!(sides,x,y,z;center=[0.,0.,0.],sel=[-1])
 
   # If no selection was set, wrap all
-
   if sel[1] == -1 
     n = length(x)
     for i in 1:n
       wrapone!(sides,x[i],y[i],z[i],center)
     end
-
 
   # Wrap only the selection
   else
