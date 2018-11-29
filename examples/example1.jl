@@ -1,3 +1,9 @@
+"""
+
+In this example, the centers of mass of the protein and of the POPC residues
+are computed, and the difference between the z-coordinates of them is ploted.
+
+"""
 
 push!(LOAD_PATH,"../src")
 
@@ -17,13 +23,15 @@ function main()
   println(" Defining selections... ")
   popc = Namd.select("resname POPC")
   prot = Namd.select("protein")
-  
+
   println(" Computing center of masses... ")
   popc_cm = Array{Float32}(undef,Namd.nframes,3)
   prot_cm = Array{Float32}(undef,Namd.nframes,3)
   cm = Array{Float32}(undef,3)
+
   for i in 1:Namd.nframes
     sides, x, y, z = Namd.nextframe()
+
     cm = Namd.cm(popc,Namd.mass,x,y,z)
     for j in 1:3 
       popc_cm[i,j] = cm[j]
@@ -32,6 +40,8 @@ function main()
     for j in 1:3 
       prot_cm[i,j] = cm[j]
     end
+
+
   end
   Namd.closedcd()
 
@@ -45,7 +55,7 @@ function main()
   end
   x = [ i for i in 1:Namd.nframes ]
   plot(x,diff)
-  savefig("example.pdf")
+  savefig("example1.pdf")
 
 end; main()
 

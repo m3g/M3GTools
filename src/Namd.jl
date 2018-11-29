@@ -74,8 +74,7 @@ module Namd
     #
 
     IntVec = Vector{Int32}(undef,17)
-    hdr, read_nframes, IntVec[1:8], ts, IntVec[9:17] = 
-      read(dcdfile, FString{4}, Int32, (Int32,8), Float64, (Int32,9))
+    hdr, read_nframes, IntVec[1:8], ts, IntVec[9:17] = read(dcdfile, FString{4}, Int32, (Int32,8), Float64, (Int32,9))
     dummyi, title = read(dcdfile, Int32, FString{80})
     read_natoms = read(dcdfile,Int32) 
 
@@ -251,7 +250,8 @@ module Namd
 
   end
 
-  include("./Cm.jl")
+  include("./cm.jl")
+  include("./pbc.jl")
 
 end
 
