@@ -186,18 +186,20 @@ module Namd
   #  return nframes
   #end
 
-  function nextframe()
+  function nextframe(;lastatom=0)
 
     if natoms == 0
       error("ERROR: Set natoms before reading frames with namd.header()")
+    else
+      lastatom = natoms
     end
     
     if dcdaxis 
       sides_read = read(dcdfile,(Float64,6))
     end
-    x = read(dcdfile,(Float32,natoms))
-    y = read(dcdfile,(Float32,natoms))
-    z = read(dcdfile,(Float32,natoms))
+    x = read(dcdfile,(Float32,lastatom))
+    y = read(dcdfile,(Float32,lastatom))
+    z = read(dcdfile,(Float32,lastatom))
     
     sides = [ sides_read[1], sides_read[3], sides_read[6] ]
 
