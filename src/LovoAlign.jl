@@ -2,7 +2,7 @@
 module LovoAlign
 
   using Random
-  using PDB
+  include("./PDB.jl")
 
   #export Pair
   #struct Pair
