@@ -254,6 +254,7 @@ module Namd
 
   include("./cm.jl")
   include("./pbc.jl")
+  include("./distance.jl")
 
 end
 
