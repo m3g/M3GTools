@@ -15,7 +15,7 @@ function elec(sel1,sel2,charge,sides,x,y,z)
     wrap!(sides,x,y,z,center=center,sel=sel2)
     for j in 1:n2
       d = sqrt((x[sel1[i]] - x[sel2[j]])^2 + (y[sel1[i]] - y[sel2[j]])^2 + (z[sel1[i]] - z[sel2[j]])^2)
-      elec = elec + qpair(d,q1,q2)
+      elec = elec + qpair(d,charge[sel1[i]],charge[sel2[j]])
     end
   end
   
