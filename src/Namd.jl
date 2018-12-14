@@ -259,6 +259,7 @@ module Namd
   include("./cm.jl")
   include("./pbc.jl")
   include("./distance.jl")
+  include("./elec.jl")
 
 end
 
