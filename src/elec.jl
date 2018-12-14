@@ -2,9 +2,9 @@
 # This function computes electrostatic interaction between two selections
 #
 
-function elec(sel1,sel2,charge,sides,x,y,z)
+include("./qpair.jl")
 
-  Coulomb = 332.05382e0
+function elec(sel1,sel2,charge,sides,x,y,z)
 
   n1 = length(sel1)
   n2 = length(sel2)
@@ -22,12 +22,3 @@ function elec(sel1,sel2,charge,sides,x,y,z)
   return elec
 end
 
-# Computes the electrostatic interaction of a pair of atoms, given the distance
-
-function qpair(d,q1,q2)
-
-  Coulomb = 332.05382e0
-  qpair = Coulomb*q1*q2 / d
-
-  return qpair
-end
