@@ -13,6 +13,7 @@ module Namd
   psffile = "none"
   dcdfile = "none"
   mass = Vector{}
+  charge = Vector{}
   vmd_exec="vmd"
 
   #struct Atom
@@ -53,6 +54,7 @@ module Namd
       if start_atoms 
         iatom = iatom + 1
         mass[iatom] = parse(Float32,data[8])
+        charge[iatom] = parse(Float32,data[7])
         if iatom == natoms 
           break
         end
@@ -61,6 +63,7 @@ module Namd
         if data[2] == "!NATOM"
           global natoms = parse(Int64,data[1]) 
           global mass = Vector{Float32}(undef,natoms)
+          global charge = Vector{Float32}(undef,natoms)
           start_atoms = true
           println(" Number of atoms: ", natoms)
         end 
@@ -68,6 +71,7 @@ module Namd
     end 
     Base.close(file)
     println(" Masses were read to Namd.mass vector ")
+    println(" Charges were read to Namd.charge vector ")
 
     #
     # Reads DCD file header, returns nframes (correctly, if set) and ntotat
