@@ -17,10 +17,14 @@ function elec(sel1,sel2,charge,sides,x,y,z;cutoff=-1.,pbc=true)
     end
     for j in 1:n2
       d = sqrt((x[sel1[i]] - x[sel2[j]])^2 + (y[sel1[i]] - y[sel2[j]])^2 + (z[sel1[i]] - z[sel2[j]])^2)
-      elec = elec + qpair(d,charge[sel1[i]],charge[sel2[j]])
-      if cutoff > 0. 
-        shift = qpair(cutoff,charge[sel1[i]],charge[sel2[j]])
-        elec = elec - shift
+      if cutoff > 0.
+        if d < cutoff
+          elec = elec + qpair(d,charge[sel1[i]],charge[sel2[j]])
+          shift = qpair(cutoff,charge[sel1[i]],charge[sel2[j]])
+          elec = elec - shift
+        end
+      else
+        elec = elec + qpair(d,charge[sel1[i]],charge[sel2[j]])
       end
     end
   end
