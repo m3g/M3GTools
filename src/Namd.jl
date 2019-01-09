@@ -260,6 +260,7 @@ module Namd
   include("./pbc.jl")
   include("./distance.jl")
   include("./elec.jl")
+  include("./tcf.jl")
 
 end
 
