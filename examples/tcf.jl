@@ -25,6 +25,7 @@ abs_start = Namd.select("index 1548 1549")
 abs_end = Namd.select("index 1546")
 
 # Emission vector, start and end
+#emi_start = Namd.select("index 1548 1549")
 emi_start = Namd.select("index 1548 1549")
 emi_end = Namd.select("index 1545")
 

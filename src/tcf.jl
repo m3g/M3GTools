@@ -16,7 +16,6 @@ function tcf(abs_start,abs_end,emi_start,emi_end;lastframe=0,align=[],theta=-1.,
   
     # This only makes sense if the starting point of the two vectors are the same
   
-    error = false
     if abs_start != emi_start
       error(" Error: If you want to use an angle (theta) to define the emission \n",
             "        vector, the initial point of the emission vector \n",
