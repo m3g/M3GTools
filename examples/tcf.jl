@@ -20,18 +20,24 @@ Namd.init(psf="./structure.psf",
 
 println(" Defining selections... ")
 
-# Absorption vector, start and end
+# Absorption vector, start and end (the center of mass of selected atoms is considered)
 abs_start = Namd.select("index 1548 1549")
 abs_end = Namd.select("index 1546")
 
-# Absorption vector, start and end
+# Emission vector, start and end
 emi_start = Namd.select("index 1548 1549")
 emi_end = Namd.select("index 1545")
+
+# Optional: align coordinates to first frame, according to the alignment of
+# the selection defined here. In this case, we remove the rotation of the protein.
+
+CAs = Namd.select("protein and name CA")
 
 t, legendre, tcf = Namd.tcf(abs_start,abs_end,emi_start,emi_end;
                             r0=0.4,
                             theta=34.24,
-                            scaletime=0.001)
+                            scaletime=0.001,    
+                            align=CAs)
 
 # It is a good idea to save the data to a file:
 

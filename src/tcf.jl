@@ -42,6 +42,15 @@ function tcf(abs_start,abs_end,emi_start,emi_end;lastframe=0,align=[],theta=-1.,
   
   end
 
+  nalign = length(align)
+  if nalign == 0 
+    doalign = false
+  else
+    doalign = true
+    xalign_ref = Matrix{Float32}(undef,nalign+4,3)
+    xalign = Matrix{Float32}(undef,nalign+4,3)
+  end
+
   if lastframe == 0 
    lastframe = Namd.nframes
   end
@@ -66,6 +75,49 @@ function tcf(abs_start,abs_end,emi_start,emi_end;lastframe=0,align=[],theta=-1.,
     cm_abs_end = Namd.cm(abs_end,Namd.mass,xdcd,ydcd,zdcd)
     cm_emi_start = Namd.cm(emi_start,Namd.mass,xdcd,ydcd,zdcd)
     cm_emi_end = Namd.cm(emi_end,Namd.mass,xdcd,ydcd,zdcd)
+
+    # If align is set, move all vectors according to the alignment of the
+    # selected atoms
+
+    if doalign == true 
+
+      if iframe == 1 
+        for i in 1:nalign
+          xalign_ref[i,1] = xdcd[align[i]]
+          xalign_ref[i,2] = ydcd[align[i]]
+          xalign_ref[i,3] = zdcd[align[i]]
+        end
+        for j in 1:3
+          xalign_ref[nalign+1,j] = cm_abs_start[j]
+          xalign_ref[nalign+2,j] = cm_abs_end[j]
+          xalign_ref[nalign+3,j] = cm_emi_start[j]
+          xalign_ref[nalign+4,j] = cm_emi_end[j]
+        end
+      end
+
+      for i in 1:nalign
+        xalign[i,1] = xdcd[align[i]]
+        xalign[i,2] = ydcd[align[i]]
+        xalign[i,3] = zdcd[align[i]]
+      end
+      for j in 1:3
+        xalign[nalign+1,j] = cm_abs_start[j]
+        xalign[nalign+2,j] = cm_abs_end[j]
+        xalign[nalign+3,j] = cm_emi_start[j]
+        xalign[nalign+4,j] = cm_emi_end[j]
+      end
+ 
+      xaligned = Namd.procrustes(xalign,xalign_ref)
+
+      for j in 1:3
+        cm_abs_start[j] = xaligned[nalign+1,j] 
+        cm_abs_end[j]   = xaligned[nalign+2,j] 
+        cm_emi_start[j] = xaligned[nalign+3,j] 
+        cm_emi_end[j]   = xaligned[nalign+4,j] 
+      end
+
+    end 
+
     for i in 1:3
       xabs[iframe,i] = cm_abs_end[i] - cm_abs_start[i]
       xemi[iframe,i] = cm_emi_end[i] - cm_emi_start[i]

@@ -261,6 +261,7 @@ module Namd
   include("./distance.jl")
   include("./elec.jl")
   include("./tcf.jl")
+  include("./procrustes.jl")
 
 end
 
