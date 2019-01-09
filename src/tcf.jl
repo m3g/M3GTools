@@ -54,7 +54,7 @@ function tcf(abs_start,abs_end,emi_start,emi_end;lastframe=0,align=[],theta=-1.,
   if lastframe == 0 
    lastframe = Namd.nframes
   end
-  println("lastframe = ",lastframe)
+  println(" Last frame to consider = ",lastframe)
   xabs = Matrix{Float32}(undef,lastframe,3)
   xemi = Matrix{Float32}(undef,lastframe,3)
 
