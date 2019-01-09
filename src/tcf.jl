@@ -49,32 +49,33 @@ function tcf(abs_start,abs_end,emi_start,emi_end;lastframe=0,align=[],theta=-1.,
   xabs = Matrix{Float32}(undef,lastframe,3)
   xemi = Matrix{Float32}(undef,lastframe,3)
 
+  println(" Reading DCD file ... ")
   for iframe in 1:lastframe
 
-     if iframe%(lastframe/1000) == 0 
-       println("Frame: ", iframe, " of ", lastframe)
-     end
+    if iframe%(lastframe/1000) == 0 
+      println("Frame: ", iframe, " of ", lastframe)
+    end
 
-     # Reading dcd data for this frame
+    # Reading dcd data for this frame
 
-     sides, xdcd, ydcd, zdcd = Namd.nextframe()
+    sides, xdcd, ydcd, zdcd = Namd.nextframe()
 
-     # Computing the absorption and emission vectors
+    # Computing the absorption and emission vectors
 
-     cm_abs_start = Namd.cm(abs_start,Namd.mass,xdcd,ydcd,zdcd)
-     cm_abs_end = Namd.cm(abs_end,Namd.mass,xdcd,ydcd,zdcd)
-     cm_emi_start = Namd.cm(emi_start,Namd.mass,xdcd,ydcd,zdcd)
-     cm_emi_end = Namd.cm(emi_end,Namd.mass,xdcd,ydcd,zdcd)
-     for i in 1:3
-       xabs[iframe,i] = cm_abs_end[i] - cm_abs_start[i]
-       xemi[iframe,i] = cm_emi_end[i] - cm_emi_start[i]
-     end
-     vabs_norm = sqrt( xabs[iframe,1]^2 + xabs[iframe,2]^2 + xabs[iframe,3]^2 )
-     vemi_norm = sqrt( xemi[iframe,1]^2 + xemi[iframe,2]^2 + xemi[iframe,3]^2 )
-     for i in 1:3
-       xabs[iframe,i] = xabs[iframe,i] / vabs_norm
-       xemi[iframe,i] = xemi[iframe,i] / vemi_norm
-     end
+    cm_abs_start = Namd.cm(abs_start,Namd.mass,xdcd,ydcd,zdcd)
+    cm_abs_end = Namd.cm(abs_end,Namd.mass,xdcd,ydcd,zdcd)
+    cm_emi_start = Namd.cm(emi_start,Namd.mass,xdcd,ydcd,zdcd)
+    cm_emi_end = Namd.cm(emi_end,Namd.mass,xdcd,ydcd,zdcd)
+    for i in 1:3
+      xabs[iframe,i] = cm_abs_end[i] - cm_abs_start[i]
+      xemi[iframe,i] = cm_emi_end[i] - cm_emi_start[i]
+    end
+    vabs_norm = sqrt( xabs[iframe,1]^2 + xabs[iframe,2]^2 + xabs[iframe,3]^2 )
+    vemi_norm = sqrt( xemi[iframe,1]^2 + xemi[iframe,2]^2 + xemi[iframe,3]^2 )
+    for i in 1:3
+      xabs[iframe,i] = xabs[iframe,i] / vabs_norm
+      xemi[iframe,i] = xemi[iframe,i] / vemi_norm
+    end
 
     # Computing emission vector from a rotation of the absoprtion vector, if theta > 0.
 
@@ -111,12 +112,19 @@ function tcf(abs_start,abs_end,emi_start,emi_end;lastframe=0,align=[],theta=-1.,
   end
 
   # Computing the time-dependent correlation function
+ 
+  println(" Computing the tcf ... ")
 
   tcf = zeros(lastframe)
   legendre = zeros(lastframe)
   t = Vector{Float32}(undef,lastframe)
 
   for i in 1:lastframe
+
+    if i%(lastframe/1000) == 0 
+      println("Frame: ", i, " of ", lastframe)
+    end
+
     for j in i:lastframe
   
       # Computing the internal product of absoprtion and emission vectors

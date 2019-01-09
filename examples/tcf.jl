@@ -33,10 +33,19 @@ t, legendre, tcf = Namd.tcf(abs_start,abs_end,emi_start,emi_end;
                             theta=34.24,
                             scaletime=0.001)
 
+# It is a good idea to save the data to a file:
+
+file="tcf.dat"
+println(" Writting data to file: ", file)
+f = open(file,"w")
+println(f," Time  2nd-Legendre TCF ")
+for i in 1:length(t)
+  println(f,t[i]," ",legendre[i]," ",tcf[i])
+end
+close(f)
+
 println(" Plotting... ")
 plot(t,legendre)
 savefig("tcf.pdf")
-
-
 
 
