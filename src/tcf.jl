@@ -70,10 +70,12 @@ function tcf(abs_start,abs_end,emi_start,emi_end;
   println(" Reading DCD file ... ")
   for iframe in 1:lastframe
 
-    if iframe == 1 ; println(" ") ; end
+    if iframe == 1  
+      @printf("%7s %i10 %4s %i10\n"," Frame: ",iframe," of ",lastframe)
+    end
     if iframe%(lastframe/1000) == 0 
-      print("\b\b\b\b\b\b\b\b\b\b\b\b\b\b\b\b\b\b\b\b\b\b\b\b\b\b\b\b\b\b\b\b\b\b")
-      print("Frame: ", iframe, " of ", lastframe)
+      @printf("%30s","\b"^15)
+      @printf("%7s %i10 %4s %i10\n"," Frame: ",iframe," of ",lastframe)
     end
 
     # Reading dcd data for this frame
