@@ -74,14 +74,6 @@ function tcf(abs_start,abs_end,emi_start,emi_end;
 
     next!(p)
     
-    #if iframe == 1  
-    #  @printf("%7s %10i %4s %10i\n"," Frame: ",iframe," of ",lastframe)
-    #end
-    #if iframe%(lastframe/1000) == 0 
-    #  @printf("%30s","\b"^15)
-    #  @printf("%7s %10i %4s %10i"," Frame: ",iframe," of ",lastframe)
-    #end
-
     # Reading dcd data for this frame
 
     sides, xdcd, ydcd, zdcd = Namd.nextframe()
@@ -179,7 +171,6 @@ function tcf(abs_start,abs_end,emi_start,emi_end;
     end
 
   end
-  println(" ")
 
   # Computing the time-dependent correlation function
  
@@ -206,8 +197,9 @@ function tcf(abs_start,abs_end,emi_start,emi_end;
     end
   end
 
-  println(" Final scaling ... ")
+  p = Progress(lastframe,5," Final scaling: ")
   for i in 1:lastframe
+    next!(p)
     tcf[i] = tcf[i] / ( lastframe - i + 1 )
     legendre[i] = legendre[i] / ( lastframe - i + 1 )
     t[i] = scaletime*(i-1)
