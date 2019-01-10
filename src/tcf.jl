@@ -69,7 +69,6 @@ function tcf(abs_start,abs_end,emi_start,emi_end;
     lastdt = lastframe
   end
 
-  println(" Reading DCD file: ")
   p = Progress(lastframe,5," Reading DCD file: ")
   for iframe in 1:lastframe
 
@@ -184,12 +183,11 @@ function tcf(abs_start,abs_end,emi_start,emi_end;
 
   # Computing the time-dependent correlation function
  
-  p = Progress(lastframe,5," Computing the tcf: ")
   tcf = zeros(lastframe)
   legendre = zeros(lastframe)
   t = Vector{Float32}(undef,lastframe)
 
-  print(" Reading DCD file: ")
+  p = Progress(lastframe,5," Computing the tcf: ")
   for i in 1:lastframe
 
     next!(p)
