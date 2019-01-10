@@ -192,7 +192,7 @@ function tcf(abs_start,abs_end,emi_start,emi_end;
 
     next!(p)
 
-    for j in i:minimum(i+lastdt,lastframe)
+    for j in i:min(i+lastdt,lastframe)
   
       # Computing the internal product of absoprtion and emission vectors
   
