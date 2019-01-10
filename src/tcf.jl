@@ -73,11 +73,11 @@ function tcf(abs_start,abs_end,emi_start,emi_end;
   for iframe in 1:lastframe
 
     if iframe == 1  
-      @printf("%7s %i10 %4s %i10\n"," Frame: ",iframe," of ",lastframe)
+      @printf("%7s %10i %4s %10i\n"," Frame: ",iframe," of ",lastframe)
     end
     if iframe%(lastframe/1000) == 0 
       @printf("%30s","\b"^15)
-      @printf("%7s %i10 %4s %i10\n"," Frame: ",iframe," of ",lastframe)
+      @printf("%7s %10i %4s %10i\n"," Frame: ",iframe," of ",lastframe)
     end
 
     # Reading dcd data for this frame
