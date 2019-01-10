@@ -8,7 +8,7 @@
 
 """
 
-using Printf
+using ProgressMeter
 
 function tcf(abs_start,abs_end,emi_start,emi_end;
              lastframe=0,
@@ -70,15 +70,18 @@ function tcf(abs_start,abs_end,emi_start,emi_end;
   end
 
   println(" Reading DCD file ... ")
+  p = Progress(lastframe,1)
   for iframe in 1:lastframe
 
-    if iframe == 1  
-      @printf("%7s %10i %4s %10i\n"," Frame: ",iframe," of ",lastframe)
-    end
-    if iframe%(lastframe/1000) == 0 
-      @printf("%30s","\b"^15)
-      @printf("%7s %10i %4s %10i\n"," Frame: ",iframe," of ",lastframe)
-    end
+    next!(p)
+    
+    #if iframe == 1  
+    #  @printf("%7s %10i %4s %10i\n"," Frame: ",iframe," of ",lastframe)
+    #end
+    #if iframe%(lastframe/1000) == 0 
+    #  @printf("%30s","\b"^15)
+    #  @printf("%7s %10i %4s %10i"," Frame: ",iframe," of ",lastframe)
+    #end
 
     # Reading dcd data for this frame
 
