@@ -8,7 +8,13 @@
 
 """
 
-function tcf(abs_start,abs_end,emi_start,emi_end;lastframe=0,align=[],theta=-1.,r0=1.,scaletime=1.)
+function tcf(abs_start,abs_end,emi_start,emi_end;
+             lastframe=0,
+             lastdt=0,
+             align=[],
+             theta=-1.,
+             r0=1.,
+             scaletime=1.)
 
   # Check if the input is correct for using or not theta
 
@@ -56,6 +62,10 @@ function tcf(abs_start,abs_end,emi_start,emi_end;lastframe=0,align=[],theta=-1.,
   println(" Last frame to consider = ",lastframe)
   xabs = Matrix{Float32}(undef,lastframe,3)
   xemi = Matrix{Float32}(undef,lastframe,3)
+
+  if lastdt == 0 
+    lastdt = lastframe
+  end
 
   println(" Reading DCD file ... ")
   for iframe in 1:lastframe
@@ -176,7 +186,7 @@ function tcf(abs_start,abs_end,emi_start,emi_end;lastframe=0,align=[],theta=-1.,
       println("Frame: ", i, " of ", lastframe)
     end
 
-    for j in i:lastframe
+    for j in i:minimum(i+lastdt,lastframe)
   
       # Computing the internal product of absoprtion and emission vectors
   
