@@ -70,8 +70,10 @@ function tcf(abs_start,abs_end,emi_start,emi_end;
   println(" Reading DCD file ... ")
   for iframe in 1:lastframe
 
+    if iframe == 1 ; println(" ") ; end
     if iframe%(lastframe/1000) == 0 
-      println("Frame: ", iframe, " of ", lastframe)
+      print("\b\b\b\b\b\b\b\b\b\b\b\b\b\b\b\b\b\b\b\b\b\b\b\b\b\b\b\b\b\b\b\b\b\b")
+      print("Frame: ", iframe, " of ", lastframe)
     end
 
     # Reading dcd data for this frame
@@ -171,6 +173,7 @@ function tcf(abs_start,abs_end,emi_start,emi_end;
     end
 
   end
+  println(" ")
 
   # Computing the time-dependent correlation function
  
@@ -182,8 +185,10 @@ function tcf(abs_start,abs_end,emi_start,emi_end;
 
   for i in 1:lastframe
 
+    if i == 1 ; println(" ") ; end
     if i%(lastframe/1000) == 0 
-      println("Frame: ", i, " of ", lastframe)
+      print("\b\b\b\b\b\b\b\b\b\b\b\b\b\b\b\b\b\b\b\b\b\b\b\b\b\b\b\b\b\b\b\b\b\b")
+      print("Frame: ", i, " of ", lastframe)
     end
 
     for j in i:minimum(i+lastdt,lastframe)
@@ -199,6 +204,7 @@ function tcf(abs_start,abs_end,emi_start,emi_end;
   
     end
   end
+  println(" ")
 
   for i in 1:lastframe
     tcf[i] = tcf[i] / ( lastframe - i + 1 )
