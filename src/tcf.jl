@@ -174,9 +174,9 @@ function tcf(abs_start,abs_end,emi_start,emi_end;
 
   # Computing the time-dependent correlation function
  
-  tcf = zeros(lastframe)
-  legendre = zeros(lastframe)
-  t = Vector{Float32}(undef,lastframe)
+  tcf = zeros(lastdt)
+  legendre = zeros(lastdt)
+  t = Vector{Float32}(undef,lastdt)
 
   p = Progress(lastframe,5," Computing the tcf: ")
   for i in 1:lastframe
@@ -197,8 +197,8 @@ function tcf(abs_start,abs_end,emi_start,emi_end;
     end
   end
 
-  p = Progress(lastframe,5," Final scaling: ")
-  for i in 1:lastframe
+  p = Progress(lastdt,5," Final scaling: ")
+  for i in 1:lastdt
     next!(p)
     tcf[i] = tcf[i] / ( lastframe - i + 1 )
     legendre[i] = legendre[i] / ( lastframe - i + 1 )
