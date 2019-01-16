@@ -37,7 +37,7 @@ function tcf(abs_start,abs_end,emi_start,emi_end;
             "        of the absorption vector, the defined absorption and emission \n",
             "        vectors cannot be equal, because they must define the plane \n",
             "        of rotation (actually, this is the only function of the definition \n",
-            "        of the emission vector in this case ")
+            "        of the emission vector in this case)")
     end
   
     # Converting angle
