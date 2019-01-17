@@ -7,13 +7,13 @@ module Namd
   # Scalars of the simulation
   # 
 
-  natoms = 0
-  nframes = 0
-  dcdaxis = true
-  psffile = "none"
-  dcdfile = "none"
-  mass = Vector{}
-  charge = Vector{}
+  local natoms = 0
+  local nframes = 0
+  local dcdaxis = true
+  local psffile = "none"
+  local dcdfile = "none"
+  local mass :: Vector{}
+  local charge :: Vector{}
   vmd_exec="vmd"
 
   #struct Atom
@@ -116,10 +116,10 @@ module Namd
   #
 
   function select(selection;update=false,
-                            sides=Vector{},
-                            x=Vector{},
-                            y=Vector{},
-                            z=Vector{})
+                            sides::Vector{Float64},
+                            x::Vector{Float32},
+                            y::Vector{Float32},
+                            z::Vector{Float32})
 
     index_list = String
     readnext = false
