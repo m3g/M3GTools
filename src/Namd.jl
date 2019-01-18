@@ -12,8 +12,8 @@ module Namd
   local dcdaxis = true
   local psffile = "none"
   local dcdfile = "none"
-  local mass :: Vector{}
-  local charge :: Vector{}
+  local mass :: Vector{Float64}
+  local charge :: Vector{Float64}
   vmd_exec="vmd"
 
   #struct Atom
