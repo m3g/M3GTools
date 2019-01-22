@@ -10,7 +10,8 @@
 
 using ProgressMeter
 
-function tcf(abs_start,abs_end,emi_start,emi_end;
+function tcf(simulation :: Simulation,
+             abs_start,abs_end,emi_start,emi_end;
              lastframe=0,
              lastdt=0,
              align=[],
@@ -59,7 +60,7 @@ function tcf(abs_start,abs_end,emi_start,emi_end;
   end
 
   if lastframe == 0 
-   lastframe = Namd.nframes
+   lastframe = simulation.nframes
   end
   println(" Last frame to consider = ",lastframe)
   xabs = Matrix{Float32}(undef,lastframe,3)
@@ -69,6 +70,9 @@ function tcf(abs_start,abs_end,emi_start,emi_end;
     lastdt = lastframe
   end
 
+  # Go to first frame, to be sure
+  Namd.firstframe(simulation)
+
   p = Progress(lastframe,5," Reading DCD file: ")
   for iframe in 1:lastframe
 
@@ -76,14 +80,14 @@ function tcf(abs_start,abs_end,emi_start,emi_end;
     
     # Reading dcd data for this frame
 
-    sides, xdcd, ydcd, zdcd = Namd.nextframe()
+    sides, xdcd, ydcd, zdcd = Namd.nextframe(simulation)
 
     # Computing the absorption and emission vectors
 
-    cm_abs_start = Namd.cm(abs_start,Namd.mass,xdcd,ydcd,zdcd)
-    cm_abs_end = Namd.cm(abs_end,Namd.mass,xdcd,ydcd,zdcd)
-    cm_emi_start = Namd.cm(emi_start,Namd.mass,xdcd,ydcd,zdcd)
-    cm_emi_end = Namd.cm(emi_end,Namd.mass,xdcd,ydcd,zdcd)
+    cm_abs_start = Namd.cm(abs_start,simulation.mass,xdcd,ydcd,zdcd)
+    cm_abs_end = Namd.cm(abs_end,simulation.mass,xdcd,ydcd,zdcd)
+    cm_emi_start = Namd.cm(emi_start,simulation.mass,xdcd,ydcd,zdcd)
+    cm_emi_end = Namd.cm(emi_end,simulation.mass,xdcd,ydcd,zdcd)
 
     # If align is set, move all vectors according to the alignment of the
     # selected atoms
