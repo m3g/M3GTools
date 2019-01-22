@@ -4,8 +4,8 @@
 
 function select(simulation :: Simulation, selection :: String)
 
-  index_list = String
-  readnext = false
+  local index_list :: String 
+  local readnext :: Bool = false
 
   vmd_input = Base.open("./VMDINPUT_TMP.VMD","w")
   Base.write(vmd_input,"mol new \"$(simulation.psf)\" \n")
