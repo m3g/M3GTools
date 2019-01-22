@@ -6,7 +6,6 @@ are computed, and the difference between the z-coordinates of them is ploted.
 """
 
 push!(LOAD_PATH,"../src")
-
 using Namd
 
 println(" Loading Plots... ")

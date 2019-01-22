@@ -6,7 +6,6 @@ and a sodium atom is computed and ploted as a function of time
 """
 
 push!(LOAD_PATH,"../src")
-
 using Namd
 
 println(" Loading Plots... ")
@@ -16,20 +15,20 @@ function main()
 
   # Initialize simulation data and path to VMD executable
   println(" Reading simulation data ... ")
-  Namd.init(psf="./structure.psf",
-            dcd="./structure.dcd",
-            vmd="vmd")
+  mysim = Namd.init(psf="./structure.psf",
+                    dcd="./structure.dcd",
+                    vmd="vmd")
 
   println(" Defining selections... ")
-  cterm = Namd.select("protein and resid 253 and name C")
-  sod = Namd.select("index 20455")
+  cterm = Namd.select(mysim,"protein and resid 253 and name C")
+  sod = Namd.select(mysim,"index 20455")
 
   # Vector that will contain the distances for each frame
-  d = Vector{Float64}(undef,Namd.nframes)
+  d = Vector{Float64}(undef,mysim.nframes)
 
   println(" Computing distances ... ")
-  for i in 1:Namd.nframes
-    sides, x, y, z = Namd.nextframe()
+  for i in 1:mysim.nframes
+    sides, x, y, z = Namd.nextframe(mysim)
 
     # Wrap coordinates of the sodium around cterm
 
@@ -43,11 +42,11 @@ function main()
                  ( z[cterm[1]] - z[sod[1]] )^2 ) 
 
   end
-  Namd.closedcd()
+  Namd.closedcd(mysim)
 
   println(" Plotting... ")
 
-  x = [ i for i in 1:Namd.nframes ]
+  x = [ i for i in 1:mysim.nframes ]
   plot(x,d)
   savefig("example2.pdf")
 
