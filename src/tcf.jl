@@ -187,7 +187,7 @@ function tcf(simulation :: Simulation,
 
     next!(p)
 
-    for j in i:min(i+lastdt,lastframe)
+    for j in i:min(i+lastdt-1,lastframe)
   
       # Computing the internal product of absoprtion and emission vectors
   
