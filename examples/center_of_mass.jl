@@ -23,8 +23,8 @@ function main()
                     vmd="vmd")
 
   println(" Defining selections... ")
-  popc = Namd.select("resname POPC")
-  prot = Namd.select("protein")
+  popc = Namd.select(mysim,"resname POPC")
+  prot = Namd.select(mysim,"protein")
 
   println(" Computing center of masses... ")
   popc_cm = Array{Float32}(undef,mysim.nframes,3)
@@ -44,7 +44,7 @@ function main()
     end
 
   end
-  Namd.closedcd()
+  Namd.closedcd(mysim)
 
   # Printing the difference in the Z-coordinate of the center of
   # masses of the selections
