@@ -13,7 +13,7 @@ using ProgressMeter
 function tcf(simulation :: Simulation,
              abs_start,abs_end,emi_start,emi_end;
              lastframe=0,
-             lastdt=0,
+             maxdt=-1.,
              align=[],
              theta=-1.,
              r0=1.,
@@ -66,8 +66,10 @@ function tcf(simulation :: Simulation,
   xabs = Matrix{Float32}(undef,lastframe,3)
   xemi = Matrix{Float32}(undef,lastframe,3)
 
-  if lastdt == 0 
-    lastdt = lastframe
+  if maxdt < 0.
+    maxstep = lastframe
+  else
+    maxstep = Int64(maxdt/scaletime)
   end
 
   # Go to first frame, to be sure
@@ -178,16 +180,16 @@ function tcf(simulation :: Simulation,
 
   # Computing the time-dependent correlation function
  
-  tcf = zeros(lastdt)
-  legendre = zeros(lastdt)
-  t = Vector{Float32}(undef,lastdt)
+  tcf = zeros(maxstep)
+  legendre = zeros(maxstep)
+  t = Vector{Float32}(undef,maxstep)
 
   p = Progress(lastframe,5," Computing the tcf: ")
   for i in 1:lastframe
 
     next!(p)
 
-    for j in i:min(i+lastdt-1,lastframe)
+    for j in i:min(i+maxstep-1,lastframe)
   
       # Computing the internal product of absoprtion and emission vectors
   
@@ -201,8 +203,8 @@ function tcf(simulation :: Simulation,
     end
   end
 
-  p = Progress(lastdt,5," Final scaling: ")
-  for i in 1:lastdt
+  p = Progress(maxstep,5," Final scaling: ")
+  for i in 1:maxstep
     next!(p)
     tcf[i] = tcf[i] / ( lastframe - i + 1 )
     legendre[i] = legendre[i] / ( lastframe - i + 1 )

@@ -39,6 +39,7 @@ t, legendre, tcf = Namd.tcf(mysim,
                             abs_start,abs_end,emi_start,emi_end;
                             r0=0.4,
                             theta=34.24,
+                            maxdt=20.,
                             scaletime=0.001,    
                             align=CAs)
 
