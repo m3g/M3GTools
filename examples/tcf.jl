@@ -10,6 +10,7 @@ using Namd
 
 println(" Loading Plots... ")
 using Plots
+ENV["GKSwstype"]="nul" # This supresses the need of a display while plotting
 
 # Initialize simulation data and path to VMD executable
 println(" Reading simulation data ... ")
