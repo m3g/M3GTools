@@ -26,7 +26,7 @@ module Namd
    misc :: Vector{Float64}
    kinetic :: Vector{Float64}
    total :: Vector{Float64}
-   temp :: Vector{Float64}
+   temperature :: Vector{Float64}
    potential :: Vector{Float64}
    total3 :: Vector{Float64}
    tempavg :: Vector{Float64}
@@ -70,6 +70,10 @@ module Namd
   
     local natoms, mass, charge, dcdaxis
 
+    if psf == "none"
+      error(" At least a PSF must be provided with psf=filename.psf ")
+    end
+
     file = Base.open(psf)
     start_atoms = false
     iatom = 0
@@ -101,23 +105,31 @@ module Namd
     # Reads DCD file header, returns nframes (correctly, if set) and ntotat
     #
 
-    FortranDCD = FortranFile(dcd)
-    nframes, read_natoms, dcdaxis = dcdheader(FortranDCD) 
-    if read_natoms != natoms
-      error(" Number of atoms in DCD file is different from that of PSF file.")
+    if dcd != "none"
+      FortranDCD = FortranFile(dcd)
+      nframes, read_natoms, dcdaxis = dcdheader(FortranDCD) 
+      if read_natoms != natoms
+        error(" Number of atoms in DCD file is different from that of PSF file.")
+      end
+    else
+      nframes = 0
+      dcdaxis = false
+      FortranDCD = FortranFile(psf)
+      println(" Warning: no DCD file provided, so many functions won't work. ")
     end
 
     #
     # Read data from log file, if provided
     #
 
-    timestep = 0
-    dcdfreq = 0
-    dcdfirststep = 0
     if log != "none" 
+
 
       println(" Reading data from LOG file: ", strip(log))
 
+      timestep = 0
+      dcdfreq = 0
+      dcdfirststep = 0
       nsteps = 0
       for line in eachline(log)
         if line[1:min(length(line),7)] == "ENERGY:"
@@ -161,7 +173,7 @@ module Namd
       misc = Vector{Float64}(undef,nsteps) 
       kinetic = Vector{Float64}(undef,nsteps) 
       total = Vector{Float64}(undef,nsteps) 
-      temp = Vector{Float64}(undef,nsteps) 
+      temperature = Vector{Float64}(undef,nsteps) 
       potential = Vector{Float64}(undef,nsteps) 
       total3 = Vector{Float64}(undef,nsteps) 
       tempavg = Vector{Float64}(undef,nsteps) 
@@ -188,7 +200,7 @@ module Namd
           misc[nsteps] = parse(Float64,data[10]) 
           kinetic[nsteps] = parse(Float64,data[11]) 
           total[nsteps] = parse(Float64,data[12]) 
-          temp[nsteps] = parse(Float64,data[13]) 
+          temperature[nsteps] = parse(Float64,data[13]) 
           potential[nsteps] = parse(Float64,data[14]) 
           total3[nsteps] = parse(Float64,data[15]) 
           tempavg[nsteps] = parse(Float64,data[16]) 
@@ -200,7 +212,7 @@ module Namd
         end
       end  
       logdata = LogData(timestep,dcdfreq,dcdfirststep,time,ts,bond,angle,dihed,imprp,
-                        elect,vdw,boundary,misc,kinetic,total,temp,potential,total3,tempavg,
+                        elect,vdw,boundary,misc,kinetic,total,temperature,potential,total3,tempavg,
                         pressure,gpressure,volume,pressavg,gpressavg)
     else
       logdata = LogData()
