@@ -4,7 +4,7 @@ module Namd
   using FortranFiles
 
   # 
-  # Scalars of the simulation
+  # Structures
   # 
 
   struct LogData
@@ -123,7 +123,6 @@ module Namd
     #
 
     if log != "none" 
-
 
       println(" Reading data from LOG file: ", strip(log))
 
