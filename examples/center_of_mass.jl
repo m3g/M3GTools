@@ -34,11 +34,11 @@ function main()
   for i in 1:mysim.nframes
     sides, x, y, z = Namd.nextframe(mysim)
 
-    cm = Namd.cm(popc,mysim.mass,x,y,z)
+    cm = Namd.cm(popc,mysim,x,y,z)
     for j in 1:3 
       popc_cm[i,j] = cm[j]
     end
-    cm = Namd.cm(prot,mysim.mass,x,y,z)
+    cm = Namd.cm(prot,mysim,x,y,z)
     for j in 1:3 
       prot_cm[i,j] = cm[j]
     end

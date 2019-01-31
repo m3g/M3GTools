@@ -40,17 +40,32 @@ module Namd
   LogData() = LogData(0, 0, 0, [0.], [0.], [0.], [0.], [0.], [0.], [0.], [0.], [0.], [0.], 
                       [0.], [0.], [0.], [0.], [0.], [0.], [0.], [0.], [0.], [0.], [0.])
 
+  struct Atom
+
+    index :: Int64
+    residue :: Int64
+    resid :: Int64
+    
+    name :: String
+    resname :: String
+    segname :: String
+    type :: String
+
+    charge :: Float64
+    mass :: Float64
+
+  end
+
   struct Simulation
 
     psf :: String
     dcd :: String
 
     natoms :: Int64
+    atom :: Vector{Atom}
+
     nframes :: Int64
     dcdaxis :: Bool
-
-    mass :: Vector{Float64}
-    charge :: Vector{Float64}
 
     vmd :: String
 
@@ -68,7 +83,7 @@ module Namd
     # Read number of atoms and masses from PSF file
     #
   
-    local natoms, mass, charge, dcdaxis
+    local natoms, atom, dcdaxis
 
     if psf == "none"
       error(" At least a PSF must be provided with psf=filename.psf ")
@@ -77,12 +92,26 @@ module Namd
     file = Base.open(psf)
     start_atoms = false
     iatom = 0
+    residue = 0
     for line in eachline(file)
       data = split(line)
       if start_atoms 
         iatom = iatom + 1
-        mass[iatom] = parse(Float32,data[8])
-        charge[iatom] = parse(Float32,data[7])
+        segname = data[2]
+        resid = parse(Int64,data[3])
+        if iatom == 1 
+          residue = 1
+        else
+          if atom[iatom-1].resid != resid
+            residue = residue + 1
+          end
+        end
+        resname = data[4]
+        name = data[5]
+        type = data[6]
+        charge = parse(Float32,data[7])
+        mass = parse(Float32,data[8])
+        atom[iatom] = Atom(iatom,residue,resid,name,resname,segname,type,charge,mass)
         if iatom == natoms 
           break
         end
@@ -90,16 +119,13 @@ module Namd
       if length(data) > 1 
         if data[2] == "!NATOM"
           natoms = parse(Int64,data[1]) 
-          mass = Vector{Float32}(undef,natoms)
-          charge = Vector{Float32}(undef,natoms)
+          atom = Vector{Atom}(undef,natoms)
           start_atoms = true
           println(" Number of atoms: ", natoms)
         end 
       end 
     end 
     Base.close(file)
-    println(" Masses were read to mass vector ")
-    println(" Charges were read to charge vector ")
 
     #
     # Reads DCD file header, returns nframes (correctly, if set) and ntotat
@@ -218,8 +244,7 @@ module Namd
     end
 
     simulation = Simulation(psf,dcd,
-                            natoms,nframes,dcdaxis,
-                            mass,charge,
+                            natoms,atom,nframes,dcdaxis,
                             vmd,
                             FortranDCD,
                             logdata)

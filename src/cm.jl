@@ -2,15 +2,15 @@
 # This function computes the center of mass of a selection
 #
 
-function cm(selection,mass,x,y,z)
+function cm(selection,simulation,x,y,z)
 
   cm = [ 0., 0., 0. ]
   totmass = 0.
   for i in 1:length(selection)
-    cm[1] = cm[1] + mass[selection[i]]*x[selection[i]] 
-    cm[2] = cm[2] + mass[selection[i]]*y[selection[i]] 
-    cm[3] = cm[3] + mass[selection[i]]*z[selection[i]] 
-    totmass = totmass + mass[selection[i]]
+    cm[1] = cm[1] + simulation.atom[selection[i]].mass*x[selection[i]] 
+    cm[2] = cm[2] + simulation.atom[selection[i]].mass*y[selection[i]] 
+    cm[3] = cm[3] + simulation.atom[selection[i]].mass*z[selection[i]] 
+    totmass = totmass + simulation.atom[selection[i]].mass
   end
   cm[1] = cm[1] / totmass
   cm[2] = cm[2] / totmass

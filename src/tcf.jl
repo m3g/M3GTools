@@ -86,10 +86,10 @@ function tcf(simulation :: Simulation,
 
     # Computing the absorption and emission vectors
 
-    cm_abs_start = Namd.cm(abs_start,simulation.mass,xdcd,ydcd,zdcd)
-    cm_abs_end = Namd.cm(abs_end,simulation.mass,xdcd,ydcd,zdcd)
-    cm_emi_start = Namd.cm(emi_start,simulation.mass,xdcd,ydcd,zdcd)
-    cm_emi_end = Namd.cm(emi_end,simulation.mass,xdcd,ydcd,zdcd)
+    cm_abs_start = Namd.cm(abs_start,simulation,xdcd,ydcd,zdcd)
+    cm_abs_end = Namd.cm(abs_end,simulation,xdcd,ydcd,zdcd)
+    cm_emi_start = Namd.cm(emi_start,simulation,xdcd,ydcd,zdcd)
+    cm_emi_end = Namd.cm(emi_end,simulation,xdcd,ydcd,zdcd)
 
     # If align is set, move all vectors according to the alignment of the
     # selected atoms
