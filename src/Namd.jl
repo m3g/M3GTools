@@ -70,6 +70,8 @@ module Namd
     vmd :: String
 
     FortranDCD :: FortranFile
+
+    logfile :: String
     log :: LogData
 
   end
@@ -121,7 +123,6 @@ module Namd
           natoms = parse(Int64,data[1]) 
           atom = Vector{Atom}(undef,natoms)
           start_atoms = true
-          println(" Number of atoms: ", natoms)
         end 
       end 
     end 
@@ -150,13 +151,14 @@ module Namd
 
     if log != "none" 
 
-      println(" Reading data from LOG file: ", strip(log))
+      logfile = strip(log)
+      println(" Reading data from LOG file: ", logfile,"\n" )
 
       timestep = 0
       dcdfreq = 0
       dcdfirststep = 0
       nsteps = 0
-      for line in eachline(log)
+      for line in eachline(logfile)
         if line[1:min(length(line),7)] == "ENERGY:"
           nsteps = nsteps + 1
         end
@@ -209,7 +211,7 @@ module Namd
       gpressavg = Vector{Float64}(undef,nsteps) 
 
       nsteps = 0
-      for line in eachline(log)
+      for line in eachline(logfile)
         if line[1:min(length(line),7)] == "ENERGY:"
           nsteps = nsteps + 1
           data = split(line)
@@ -247,10 +249,23 @@ module Namd
                             natoms,atom,nframes,dcdaxis,
                             vmd,
                             FortranDCD,
-                            logdata)
+                            logfile,logdata)
 
     return simulation
 
+  end
+
+  function Base.show( io :: IO, simulation :: Simulation )
+    println(" Namd simulation with ", simulation.natoms," atoms. ")
+    if simulation.logfile != "none"
+      println("   LOG file: ", simulation.logfile ) 
+    end
+    if simulation.psf != "none"
+      println("   PSF file: ", simulation.psf ) 
+    end
+    if simulation.psf != "none"
+      println("   DCD file: ", simulation.dcd ) 
+    end
   end
 
   include("./select.jl")
