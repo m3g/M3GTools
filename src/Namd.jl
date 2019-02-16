@@ -268,6 +268,28 @@ module Namd
     end
   end
 
+  function Base.show( io :: IO, log :: LogData )
+
+    ndata = length(log.time)
+    tempavg = 0.
+    pavg = 0.
+    eavg = 0.
+    for i in 1:ndata
+      tempavg = tempavg + log.temperature[i]
+      pavg = pavg + log.pressure[i]
+      eavg = eavg + log.total[i]
+    end
+    tempavg = tempavg / ndata
+    pavg = pavg / ndata
+    eavg = eavg / ndata
+    println(" Simulation log data: ")
+    println("    Number of steps printed: ", ndata)
+    println("    Average temperature: ", tempavg)
+    println("    Average pressure: ", pavg)
+    println("    Average total energy: ", eavg)
+
+  end
+
   include("./select.jl")
   include("./dcdio.jl")
 
