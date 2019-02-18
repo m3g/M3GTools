@@ -5,7 +5,7 @@ and a sodium atom is computed and ploted as a function of time
 
 """
 
-push!(LOAD_PATH,"../src")
+push!(LOAD_PATH,"../")
 using Namd
 
 println(" Loading Plots... ")

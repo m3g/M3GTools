@@ -5,7 +5,7 @@ are computed, and the difference between the z-coordinates of them is ploted.
 
 """
 
-push!(LOAD_PATH,"../src")
+push!(LOAD_PATH,"../")
 using Namd
 
 println(" Loading Plots... ")

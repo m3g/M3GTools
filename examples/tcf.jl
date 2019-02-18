@@ -5,7 +5,7 @@ rotations of the side chain of a trp residue
 
 """
 
-push!(LOAD_PATH,"../src")
+push!(LOAD_PATH,"../")
 using Namd
 
 println(" Loading Plots... ")

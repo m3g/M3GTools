@@ -6,7 +6,7 @@ of simulation time
 
 """
 
-push!(LOAD_PATH,"../src")
+push!(LOAD_PATH,"../")
 using Namd
 
 println(" Loading Plots... ")

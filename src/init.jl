@@ -109,7 +109,7 @@ function init(;psf="none",
         end
       catch msg
       end
-    end  
+    end
     if timestep == 0 
       error("Could not find TIMESTEP in log file.")
     end
@@ -168,6 +168,7 @@ function init(;psf="none",
                       elect,vdw,boundary,misc,kinetic,total,temperature,potential,total3,tempavg,
                       pressure,gpressure,volume,pressavg,gpressavg)
   else
+    logfile = log
     logdata = LogData()
   end
 
