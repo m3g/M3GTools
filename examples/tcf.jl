@@ -26,9 +26,8 @@ abs_start = Namd.select(mysim,"index 1548 1549")
 abs_end = Namd.select(mysim,"index 1546")
 
 # Emission vector, start and end
-#emi_start = Namd.select("index 1548 1549")
 emi_start = Namd.select(mysim,"index 1548 1549")
-emi_end = Namd.select(mysim,"index 1545")
+emi_end = Namd.select(mysim,"index 1544")
 
 # Optional: align coordinates to first frame, according to the alignment of
 # the selection defined here. In this case, we remove the rotation of the protein.
