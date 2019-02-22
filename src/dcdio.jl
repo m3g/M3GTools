@@ -120,19 +120,14 @@ end
 function getnframes(FortranDCD :: FortranFile, dcdaxis :: Bool )
   firstframe(FortranDCD)
   nframes = 0
-println(dcdaxis)
   while true
     try 
       if dcdaxis
-        x = read(FortranDCD,Float64)
-        println(x)
+        read(FortranDCD,Float64)
       end
-      x = read(FortranDCD,Float32)
-        println(x)
-      x = read(FortranDCD,Float32)
-        println(x)
-      x = read(FortranDCD,Float32)
-        println(x)
+      read(FortranDCD,Float32)
+      read(FortranDCD,Float32)
+      read(FortranDCD,Float32)
       nframes = nframes + 1
     catch
       firstframe(FortranDCD)
