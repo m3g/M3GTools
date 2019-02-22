@@ -64,6 +64,10 @@ function init(;psf="none",
     if read_natoms != natoms
       error(" Number of atoms in DCD file is different from that of PSF file.")
     end
+    if nframes < 1
+      println(" WARNING: The DCD header does not inform the number of frames. Will read the DCD to fetch it. ")
+      nframes = getnframes(FortranDCD, dcdaxis)
+    end
   else
     nframes = 0
     dcdaxis = false

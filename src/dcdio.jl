@@ -114,6 +114,34 @@ function nextframe(FortranDCD :: FortranFile, dcdaxis, lastatom)
 end
 
 #
+# Function to read the number of frames if the header does not inform it
+#
+
+function getnframes(FortranDCD :: FortranFile, dcdaxis :: Bool )
+  firstframe(FortranDCD)
+  nframes = 0
+println(dcdaxis)
+  while true
+    try 
+      if dcdaxis
+        x = read(FortranDCD,Float64)
+        println(x)
+      end
+      x = read(FortranDCD,Float32)
+        println(x)
+      x = read(FortranDCD,Float32)
+        println(x)
+      x = read(FortranDCD,Float32)
+        println(x)
+      nframes = nframes + 1
+    catch
+      firstframe(FortranDCD)
+      return nframes
+    end
+  end
+end
+
+#
 # Function that writes a dcd file
 #
 
@@ -157,17 +185,4 @@ function writedcd(natoms,nframes,dcdaxis,sides,x,y,z;filename="Namdjl_DCDTEMP.dc
   close(dcdtemp)
 
 end
-
-#function nframes(dcdfile, dcdaxis, lastframe) 
-#  checkdcd(dcdfile)
-#  rewind(dcdfile)
-#  nframes, ntotat = header(dcdfile)
-#  nframes = 0
-#  
-#  if dcdaxis 
-#    read(file)
-#  end
-#  
-#  return nframes
-#end
 
