@@ -16,8 +16,7 @@ function init(;psf="none",
   if psf == "none"
     error(" At least a PSF must be provided with psf=filename.psf ")
   end
-
-  psfdata = readpsf(psf)
+  natoms, atoms = readpsf(psf)
 
   #
   # Reads DCD file header, returns nframes (correctly, if set) and ntotat
