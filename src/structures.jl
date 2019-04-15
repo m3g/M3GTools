@@ -48,6 +48,41 @@ struct Atom
 
   charge :: Float64
   mass :: Float64
+  
+  backbone :: Bool
+
+end
+
+struct Bond
+
+   index1 :: Int64
+   index2 :: Int64
+
+end
+
+struct Angle
+
+   index1 :: Int64
+   index2 :: Int64
+   index3 :: Int64
+
+end
+
+struct Dihedral
+
+   index1 :: Int64
+   index2 :: Int64
+   index3 :: Int64
+   index4 :: Int64
+
+end
+
+struct Improper
+
+   index1 :: Int64
+   index2 :: Int64
+   index3 :: Int64
+   index4 :: Int64
 
 end
 

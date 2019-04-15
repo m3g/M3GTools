@@ -16,7 +16,8 @@ function init(;psf="none",
   if psf == "none"
     error(" At least a PSF must be provided with psf=filename.psf ")
   end
-  natoms, atoms = readpsf(psf)
+  atoms, bonds, angles, dihedrals, impropers = readpsf(psf)
+  natoms = length(atoms)
 
   #
   # Reads DCD file header, returns nframes (correctly, if set) and ntotat
@@ -141,7 +142,7 @@ function init(;psf="none",
   end
 
   simulation = Simulation(psf,dcd,
-                          natoms,atom,nframes,dcdaxis,
+                          natoms,atoms,nframes,dcdaxis,
                           vmd,
                           FortranDCD,
                           logfile,logdata)

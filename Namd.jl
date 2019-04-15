@@ -4,6 +4,7 @@ module Namd
   using FortranFiles
 
   include("./src/structures.jl")
+  include("./src/readpsf.jl")
   include("./src/init.jl")
 
   include("./src/select.jl")
