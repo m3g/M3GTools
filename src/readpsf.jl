@@ -120,8 +120,10 @@ function readpsf(psf)
          ( resname == "GLY" && name in ["HA1","HA2"] )
         backbone = true
       end
+      eps = 0.
+      sig = 0.
 
-      atoms[iatom] = Atom(index,residue,resid,name,resname,segname,type,charge,mass,backbone)
+      atoms[iatom] = Atom(index,residue,resid,name,resname,segname,type,charge,mass,eps,sig,backbone)
 
       if iatom == natoms 
         read_atoms = false
@@ -142,7 +144,9 @@ function readpsf(psf)
       ind = @. parse(Int64,data)
       for i in 1:2:length(data)-1
         ibond = ibond + 1
-        bonds[ibond] = Bond(ind[i],ind[i+1])
+        kb = 0.
+        b0 = 0.
+        bonds[ibond] = Bond(ind[i],ind[i+1],kb,b0)
       end
       if ibond == nbonds
         read_bonds = false
@@ -163,7 +167,11 @@ function readpsf(psf)
       ind = @. parse(Int64,data)
       for i in 1:3:length(data)-1
         iangle = iangle + 1
-        angles[iangle] = Angle(ind[i],ind[i+1],ind[i+2])
+        ktheta = 0.
+        theta0 = 0.
+        kub = 0.
+        s0 = 0.
+        angles[iangle] = Angle(ind[i],ind[i+1],ind[i+2],ktheta,theta0,kub,s0)
       end
       if iangle == nangles
         read_angles = false
@@ -184,7 +192,11 @@ function readpsf(psf)
       ind = @. parse(Int64,data)
       for i in 1:4:length(data)-1
         idihed = idihed + 1
-        dihedrals[idihed] = Dihedral(ind[i],ind[i+1],ind[i+2],ind[i+3])
+        mult = 0
+        kchi = zeros(4)
+        n = zeros(Int64,4)
+        delta = zeros(4)
+        dihedrals[idihed] = Dihedral(ind[i],ind[i+1],ind[i+2],ind[i+3],mult,kchi,n,delta)
       end
       if idihed == ndihed
         read_dihed = false
@@ -205,7 +217,9 @@ function readpsf(psf)
       ind = @. parse(Int64,data)
       for i in 1:4:length(data)-1
         iimpr = iimpr + 1
-        impropers[iimpr] = Improper(ind[i],ind[i+1],ind[i+2],ind[i+3])
+        kpsi = 0.
+        psi0 = 0.
+        impropers[iimpr] = Improper(ind[i],ind[i+1],ind[i+2],ind[i+3],kpsi,psi0)
       end
       if iimpr == nimpr
         read_impr = false

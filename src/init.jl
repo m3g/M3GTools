@@ -2,9 +2,9 @@
 # Initialize simulation data
 #
 
-function init(;psf="none",
-               dcd="none",
-               log="none",
+function init(;psf=nothing,
+               dcd=nothing,
+               log=nothing,
                vmd="vmd")
 
   #
@@ -13,7 +13,7 @@ function init(;psf="none",
 
   local natoms, atom, dcdaxis
 
-  if psf == "none"
+  if psf == nothing
     error(" At least a PSF must be provided with psf=filename.psf ")
   end
   atoms, bonds, angles, dihedrals, impropers = readpsf(psf)
@@ -23,7 +23,7 @@ function init(;psf="none",
   # Reads DCD file header, returns nframes (correctly, if set) and ntotat
   #
 
-  if dcd != "none"
+  if dcd != nothing
     FortranDCD = FortranFile(dcd)
     nframes, read_natoms, dcdaxis = dcdheader(FortranDCD) 
     if read_natoms != natoms
@@ -44,7 +44,7 @@ function init(;psf="none",
   # Read data from log file, if provided
   #
 
-  if log != "none" 
+  if log != nothing
 
     logfile = strip(log)
     println(" Reading data from LOG file: ", logfile,"\n" )
