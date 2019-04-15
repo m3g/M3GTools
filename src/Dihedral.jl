@@ -6,9 +6,9 @@ struct Dihedral
    l :: Int64
 
    mult :: Int64
-   kchi :: Vector{Float64}(undef,4)
-   n :: Vector{Int64}(undef,4)
-   delta :: Vector{Float64}(undef,4)
+   kchi :: Vector{Float64}
+   n :: Vector{Int64}
+   delta :: Vector{Float64}
 
 end
 

@@ -12,7 +12,9 @@ struct Atom
   charge :: Float64
   mass :: Float64
   eps :: Float64
-  sig :: Float64
+  rmin :: Float64
+  eps14 :: Float64
+  rmin14 :: Float64
   
   backbone :: Bool
 

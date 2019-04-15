@@ -121,9 +121,12 @@ function readpsf(psf)
         backbone = true
       end
       eps = 0.
-      sig = 0.
+      rmin = 0.
+      eps14 = 0.
+      rmin14 = 0.
 
-      atoms[iatom] = Atom(index,residue,resid,name,resname,segname,type,charge,mass,eps,sig,backbone)
+      atoms[iatom] = Atom(index,residue,resid,name,resname,segname,type,
+                          charge,mass,eps,rmin,eps14,rmin14,backbone)
 
       if iatom == natoms 
         read_atoms = false
