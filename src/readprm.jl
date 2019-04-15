@@ -122,6 +122,11 @@ function readprm!( parfiles;
          end
        end
 
+       #
+       # Read angle parameter data
+       #
+       # voltar: add dihedrals
+
      end
      close(file)
    end
