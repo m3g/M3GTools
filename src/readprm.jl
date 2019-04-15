@@ -7,8 +7,28 @@
 # Tranlsated to Julia in April 15, 2019
 #
 
+# Methods to read only one of the components or to call without the flags
 
-function readprm!( parfiles; atoms = nothing, bonds = nothing, dihedrals = nothing, impropers = nothing )
+readprm!(parfiles, atoms :: Vector{Atom}) = readprm!(parfiles; atoms = atoms) 
+readprm!(parfiles, atoms :: Vector{Atom}, bonds :: Vector{Bond}) = readprm!(parfiles; atoms = atoms, bonds = bonds) 
+readprm!(parfiles, atoms :: Vector{Atom}, angles :: Vector{Angle}) = readprm!(parfiles; atoms = atoms, angles = angles) 
+readprm!(parfiles, atoms :: Vector{Atom}, dihedrals :: Vector{Dihedral}) = readprm!(parfiles; atoms = atoms, dihedrals = dihedrals) 
+readprm!(parfiles, atoms :: Vector{Atom}, impropers :: Vector{Improper}) = readprm!(parfiles; atoms = atoms, impropers = impropers) 
+readprm!(parfiles, atoms :: Vector{Atom},
+                   bonds :: Vector{Bond},
+                   angles :: Vector{Angle}, 
+                   dihedrals :: Vector{Dihedral},
+                   impropers :: Vector{Improper}) = 
+  readprm!(parfiles; atoms = atoms, bonds = bonds, angles = angles, dihedrals = dihedrals, impropers = impropers) 
+
+# General function
+
+function readprm!( parfiles; 
+                   atoms = nothing, 
+                   bonds = nothing, 
+                   angles = nothing, 
+                   dihedrals = nothing, 
+                   impropers = nothing )
 
    if typeof(parfiles) == String
      parfiles = [ parfiles ]
@@ -39,10 +59,13 @@ function readprm!( parfiles; atoms = nothing, bonds = nothing, dihedrals = nothi
        if idata != nothing
          @. dataread = false
          dataread[idata] = true
+         continue
        end
 
+       #
        # Read atom nonbonded parameter data
-       if dataread[1]
+       #
+       if atoms != nothing && dataread[1]
          for iatom in 1:length(atoms) 
            if data[1] == atoms[iatom].type
              eps = parse(Float64,data[3])
@@ -60,8 +83,46 @@ function readprm!( parfiles; atoms = nothing, bonds = nothing, dihedrals = nothi
          end
        end
 
-     end
+       #
+       # Read bond parameter data
+       #
+       if bonds != nothing && dataread[2]
+         for ibond in 1:length(bonds) 
+           i = bonds[ibond].i
+           j = bonds[ibond].j
+           if ( ( data[1] == atoms[i].type && data[2] == atoms[j].type ) ||
+                ( data[1] == atoms[j].type && data[2] == atoms[i].type ) ) 
+             kb = parse(Float64,data[3])
+             b0 = parse(Float64,data[4])
+             b = bonds[ibond]
+             bonds[ibond] = Bond(i,j,kb,b0)
+           end
+         end
+       end
 
+       #
+       # Read angle parameter data
+       #
+       if angles != nothing && dataread[3]
+         for iangle in 1:length(angles) 
+           i = angles[iangle].i
+           j = angles[iangle].j
+           k = angles[iangle].k
+           if ( ( data[1] == atoms[i].type && data[2] == atoms[j].type && data[3] == atoms[k].type ) ||
+                ( data[1] == atoms[k].type && data[2] == atoms[j].type && data[3] == atoms[i].type ) )
+             ktheta = parse(Float64,data[4])
+             theta0 = parse(Float64,data[5])
+             kub, s0 = try
+               parse(Float64,data[6]), parse(Float64,data[7])
+             catch
+               0., 0.
+             end
+             angles[iangle] = Angle(i,j,k,ktheta,theta0,kub,s0)
+           end
+         end
+       end
+
+     end
      close(file)
    end
 
