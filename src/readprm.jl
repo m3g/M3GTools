@@ -33,7 +33,7 @@ function readprm!( parfiles; atoms = nothing, bonds = nothing, dihedrals = nothi
        end
        if length(line) == 0 ; continue ; end
 
-       # Read data 
+       # Read data in line
        data = split(line)
        idata = findfirst( isequal(data[1]), dataname )
        if idata != nothing
@@ -42,7 +42,6 @@ function readprm!( parfiles; atoms = nothing, bonds = nothing, dihedrals = nothi
        end
 
        # Read atom nonbonded parameter data
-
        if dataread[1]
          for iatom in 1:length(atoms) 
            if data[1] == atoms[iatom].type
