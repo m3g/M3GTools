@@ -178,10 +178,22 @@ function readprm!( parfiles;
            j = impropers[iimpr].j
            k = impropers[iimpr].k
            l = impropers[iimpr].l
-           if ( data[1] == atoms[i].type && data[2] == atoms[j].type && 
-                data[3] == atoms[k].type && data[4] == atoms[l].type ) ||
-              ( data[4] == atoms[i].type && data[3] == atoms[j].type && 
-                data[2] == atoms[k].type && data[1] == atoms[l].type ) 
+           if ( ( data[1] == atoms[i].type || data[1] == "X" ) && 
+                ( data[2] == atoms[j].type ) && 
+                ( data[3] == atoms[k].type ) && 
+                ( data[4] == atoms[l].type || data[4] == "X" ) ) ||
+              ( ( data[4] == atoms[i].type || data[4] == "X" ) &&
+                ( data[3] == atoms[j].type ) && 
+                ( data[2] == atoms[k].type ) && 
+                ( data[1] == atoms[l].type || data[1] == "X" ) ) ||
+              ( ( data[1] == atoms[i].type ) &&
+                ( data[2] == atoms[j].type || data[2] == "X" ) && 
+                ( data[3] == atoms[k].type || data[3] == "X" ) && 
+                ( data[4] == atoms[l].type ) ) ||
+              ( ( data[4] == atoms[i].type ) &&
+                ( data[3] == atoms[j].type || data[3] == "X" ) && 
+                ( data[2] == atoms[k].type || data[2] == "X" ) && 
+                ( data[1] == atoms[l].type ) ) 
 
              mult = impropers[iimpr].mult + 1
              kpsi = Vector{Float64}(undef,mult)
@@ -205,7 +217,9 @@ function readprm!( parfiles;
      close(file)
    end
 
-   # Report missing atoms
+   #
+   # Report missing parameters
+   #
    missing = false
    if atoms != nothing 
      for iatom in 1:length(atoms)
