@@ -5,7 +5,8 @@ struct Improper
    k :: Int64
    l :: Int64
 
-   kpsi :: Float64
-   phi0 :: Float64
+   mult :: Int64
+   kpsi :: Vector{Float64}
+   psi0 :: Vector{Float64}
 
 end

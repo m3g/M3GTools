@@ -196,9 +196,9 @@ function readpsf(psf)
       for i in 1:4:length(data)-1
         idihed = idihed + 1
         mult = 0
-        kchi = zeros(4)
-        n = zeros(Int64,4)
-        delta = zeros(4)
+        kchi = zeros(1)
+        n = zeros(Int64,1)
+        delta = zeros(1)
         dihedrals[idihed] = Dihedral(ind[i],ind[i+1],ind[i+2],ind[i+3],mult,kchi,n,delta)
       end
       if idihed == ndihed
@@ -220,9 +220,10 @@ function readpsf(psf)
       ind = @. parse(Int64,data)
       for i in 1:4:length(data)-1
         iimpr = iimpr + 1
-        kpsi = 0.
-        psi0 = 0.
-        impropers[iimpr] = Improper(ind[i],ind[i+1],ind[i+2],ind[i+3],kpsi,psi0)
+        mult = 0
+        kpsi = zeros(1)
+        psi0 = zeros(1)
+        impropers[iimpr] = Improper(ind[i],ind[i+1],ind[i+2],ind[i+3],mult,kpsi,psi0)
       end
       if iimpr == nimpr
         read_impr = false
