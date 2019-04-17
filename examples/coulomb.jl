@@ -1,3 +1,6 @@
+#
+# git clone https://github.com/mcubeg/namdjl
+#
 
 # Path to PDBEnergy module
 push!(LOAD_PATH, "../");
@@ -6,10 +9,10 @@ push!(LOAD_PATH, "../");
 using PDBEnergy
 
 # Load PSF file data
-atoms, bonds, angles, dihedrals, impropers = readpsf("./structure.psf")
+atoms, bonds, angles, dihedrals, impropers = readpsf("./structure.psf");
 
 # Load coordinates from PDB
-getpdbcoords!("./structure.pdb",atoms)
+getpdbcoords!("./structure.pdb",atoms);
 
 # Select atoms of residue number 17
 sel1 = [ atom.index for atom in filter( atom -> atom.residue == 17, atoms) ];
@@ -18,7 +21,7 @@ sel1 = [ atom.index for atom in filter( atom -> atom.residue == 17, atoms) ];
 sel2 = [ atom.index for atom in filter( atom -> atom.residue == 19, atoms) ];
 
 # Compute electrostatic interaction between these two selections
-q = coulomb(atoms,sel1,sel2)
+q = coulomb(atoms,sel1,sel2);
 
 println("Electrostatic interaction between residues 17 and 19 = $q")
 
