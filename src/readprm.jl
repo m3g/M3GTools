@@ -83,7 +83,7 @@ function readprm!( parfiles;
              end
              a = atoms[iatom]
              atoms[iatom] = Atom(a.index,a.residue,a.resid,a.name,a.resname,a.segname,a.type,
-                                 a.charge,a.mass,eps,rmin,eps14,rmin14,a.backbone)
+                                 a.charge,a.mass,eps,rmin,eps14,rmin14,a.backbone,a.coor)
              check_atoms[iatom] = true
            end
          end
@@ -142,10 +142,22 @@ function readprm!( parfiles;
            j = dihedrals[idihed].j
            k = dihedrals[idihed].k
            l = dihedrals[idihed].l
-           if ( data[1] == atoms[i].type && data[2] == atoms[j].type && 
-                data[3] == atoms[k].type && data[4] == atoms[l].type ) ||
-              ( data[4] == atoms[i].type && data[3] == atoms[j].type && 
-                data[2] == atoms[k].type && data[1] == atoms[l].type ) 
+           if ( ( data[1] == atoms[i].type || data[1] == "X" ) && 
+                ( data[2] == atoms[j].type ) && 
+                ( data[3] == atoms[k].type ) && 
+                ( data[4] == atoms[l].type || data[4] == "X" ) ) ||
+              ( ( data[4] == atoms[i].type || data[4] == "X" ) &&
+                ( data[3] == atoms[j].type ) && 
+                ( data[2] == atoms[k].type ) && 
+                ( data[1] == atoms[l].type || data[1] == "X" ) ) ||
+              ( ( data[1] == atoms[i].type ) &&
+                ( data[2] == atoms[j].type || data[2] == "X" ) && 
+                ( data[3] == atoms[k].type || data[3] == "X" ) && 
+                ( data[4] == atoms[l].type ) ) ||
+              ( ( data[4] == atoms[i].type ) &&
+                ( data[3] == atoms[j].type || data[3] == "X" ) && 
+                ( data[2] == atoms[k].type || data[2] == "X" ) && 
+                ( data[1] == atoms[l].type ) ) 
 
              mult = dihedrals[idihed].mult + 1
              kchi = Vector{Float64}(undef,mult)
@@ -263,7 +275,7 @@ function readprm!( parfiles;
      end
    end
    if missing
-     error(" ERROR: Missing parameters. ")
+     error("Missing parameters.")
    end
 
 end

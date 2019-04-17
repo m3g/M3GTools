@@ -18,4 +18,6 @@ struct Atom
   
   backbone :: Bool
 
+  coor :: Vector{Float64}
+
 end

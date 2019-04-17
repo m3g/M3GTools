@@ -103,7 +103,7 @@ function readpsf(psf)
       if iatom == 1
         residue = 1
       else
-        if parse(Int64,data[3]) != atoms[iatom-1].residue
+        if parse(Int64,data[3]) != atoms[iatom-1].resid
           residue = residue + 1
         end
       end
@@ -124,9 +124,10 @@ function readpsf(psf)
       rmin = 0.
       eps14 = 0.
       rmin14 = 0.
+      coor = zeros(3)
 
       atoms[iatom] = Atom(index,residue,resid,name,resname,segname,type,
-                          charge,mass,eps,rmin,eps14,rmin14,backbone)
+                          charge,mass,eps,rmin,eps14,rmin14,backbone,coor)
 
       if iatom == natoms 
         read_atoms = false
