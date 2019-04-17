@@ -17,7 +17,7 @@ getpdbcoords!("./structure.pdb",atoms);
 # Select atoms of residue number 17
 sel1 = [ atom.index for atom in filter( atom -> atom.residue == 17, atoms) ];
 
-# Select atoms of residue number 32
+# Select atoms of residue number 19
 sel2 = [ atom.index for atom in filter( atom -> atom.residue == 19, atoms) ];
 
 # Compute electrostatic interaction between these two selections
