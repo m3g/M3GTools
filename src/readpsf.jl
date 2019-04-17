@@ -239,8 +239,8 @@ end
 
 import Base.show
 Base.show( io :: IO, atoms :: Vector{Atom} ) = print("$(length(atoms)) atoms")
-Base.show( io :: IO, bonds :: Vector{Bond} ) =  print("$(length(bonds)) angles")
-Base.show( io :: IO, angles :: Vector{Angle} ) =  print("$(length(angles)) bonds")
+Base.show( io :: IO, bonds :: Vector{Bond} ) =  print("$(length(bonds)) bonds")
+Base.show( io :: IO, angles :: Vector{Angle} ) =  print("$(length(angles)) angles")
 Base.show( io :: IO, dihedrals :: Vector{Dihedral} ) =  print("$(length(dihedrals)) dihedrals")
 Base.show( io :: IO, impropers :: Vector{Improper} ) =  print("$(length(impropers)) improper dihedrals")
 

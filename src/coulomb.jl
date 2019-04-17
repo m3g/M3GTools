@@ -58,13 +58,6 @@ coulomb(atoms :: Vector{Atom}, sel1 :: Vector{Int}, sel2 :: Vector{Int},
         x :: Vector{Float32}, y :: Vector{Float32}, z :: Vector{Float32} ) =
   coulomb(atoms, sel1, sel2, [0., 0., 0.], x, y, z, true, 12., false)
 
-# If using keywords for the cutoff and the PBCs
-
-coulomb(atoms :: Vector{Atom}, sel1 :: Vector{Int}, sel2 :: Vector{Int}, 
-        x :: Vector{Float32}, y :: Vector{Float32}, z :: Vector{Float32}; 
-        cutoff :: Float64 = 12., pbc :: Bool = true, sides :: Vector{Float64} = [0., 0., 0.]) =
-  coulomb(atoms, sel1, sel2, sides, x, y, z, true, cutoff, pbc)
- 
 #
 # For computing interaction energies from the coordinates available in the atoms array
 #
@@ -102,9 +95,4 @@ coulomb(  atoms :: Vector{Atom}, sel1 :: Vector{Int}, sel2 :: Vector{Int}, usecu
 
 coulomb( atoms :: Vector{Atom}, sel1 :: Vector{Int}, sel2 :: Vector{Int} ) = 
   coulomb( atoms, sel1, sel2, true, 12. )
-
-# If the cutoff is set as a keyword 
-
-coulomb( atoms :: Vector{Atom}, sel1 :: Vector{Int}, sel2 :: Vector{Int}; cutoff :: Float64 = 12. ) =
-   coulomb( atoms, sel1, sel2, true, cutoff )
 
