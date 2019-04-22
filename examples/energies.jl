@@ -21,7 +21,18 @@ sel1 = [ atom.index for atom in filter( atom -> atom.residue == 17, atoms) ];
 sel2 = [ atom.index for atom in filter( atom -> atom.residue == 19, atoms) ];
 
 # Compute electrostatic interaction between these two selections
-q = coulomb(atoms,sel1,sel2);
+elecenergy = coulomb(atoms,sel1,sel2);
 
-println("Electrostatic interaction between residues 17 and 19 = $q")
+# Read parameter files (which contain eps and sig vdW parameters)
+parfiles = [ "/home/leandro/programs/toppar/charmm/par_all36_prot.prm", 
+             "/home/leandro/programs/toppar/charmm/toppar_water_ions.str", 
+             "/home/leandro/programs/toppar/charmm/par_all36_lipid.prm" ]
+readprm!(parfiles,atoms)
+
+# Compute vdw interaction between these two selections
+vdwenergy = vdw(atoms,sel1,sel2);
+
+println("Electrostatic interaction between residues 17 and 19 = $elecenergy")
+println("vdW interaction between residues 17 and 19 = $vdwenergy") 
+
 

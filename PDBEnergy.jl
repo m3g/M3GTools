@@ -22,4 +22,7 @@ module PDBEnergy
   include("./src/coulomb.jl")
   export coulomb
 
+  include("./src/vdw.jl")
+  export vdw
+
 end
