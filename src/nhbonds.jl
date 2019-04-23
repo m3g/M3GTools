@@ -5,6 +5,7 @@
 # If the coordinates of a PDB file read into the atoms vector is given
 # Bonds are needed, because we need to know to which atoms the hydrogens
 # are bound to
+#
 
 dotp(x,y) = x[1]*y[1]+x[2]*y[2]+x[3]*y[3]
 vnorm(x) = sqrt(x[1]^2 + x[2]^2 + x[3]^2)
@@ -19,7 +20,7 @@ function nhbonds(atoms,bonds,sel1,sel2; d = 3., angle = 20. )
   n2 = length(sel2)
 
   nhbonds = 0
-  for ise1 in 1:n1
+  for isel in 1:n1
     i = sel1[isel]
     for jsel in 1:n2
       j = sel2[jsel]
@@ -40,7 +41,7 @@ function nhbonds(atoms,bonds,sel1,sel2; d = 3., angle = 20. )
       for bond in ibonds
         if atoms[bond.i].element == "H"
           ib = bond.i
-        elseif atoms[bond.j].elment == "H" 
+        elseif atoms[bond.j].element == "H" 
           ib = bond.j
         else  
           continue
@@ -51,9 +52,8 @@ function nhbonds(atoms,bonds,sel1,sel2; d = 3., angle = 20. )
         vH2 = [ atoms[j].coor[1] - atoms[ib].coor[1] ,
                 atoms[j].coor[2] - atoms[ib].coor[2] ,
                 atoms[j].coor[3] - atoms[ib].coor[3] ]
-        end
         if cosang(v1H,vH2) > coshbond
-          nhbonds + nhbonds + 1
+          nhbonds = nhbonds + 1
           foundhbond = true
           break
         end
@@ -67,7 +67,7 @@ function nhbonds(atoms,bonds,sel1,sel2; d = 3., angle = 20. )
       for bond in jbonds
         if atoms[bond.i].element == "H"
           ib = bond.i
-        elseif atoms[bond.j].elment == "H" 
+        elseif atoms[bond.j].element == "H" 
           ib = bond.j
         else
           continue
@@ -79,7 +79,7 @@ function nhbonds(atoms,bonds,sel1,sel2; d = 3., angle = 20. )
                 atoms[i].coor[2] - atoms[ib].coor[2] ,
                 atoms[i].coor[3] - atoms[ib].coor[3] ]
         if cosang(v1H,vH2) > coshbond
-          nhbonds + nhbonds + 1
+          nhbonds = nhbonds + 1
           break
         end
       end
