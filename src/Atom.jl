@@ -8,6 +8,7 @@ struct Atom
   resname :: String
   segname :: String
   type :: String
+  element :: String
 
   charge :: Float64
   mass :: Float64

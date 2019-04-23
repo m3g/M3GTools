@@ -82,7 +82,7 @@ function readprm!( parfiles;
                 0., 0.
              end
              a = atoms[iatom]
-             atoms[iatom] = Atom(a.index,a.residue,a.resid,a.name,a.resname,a.segname,a.type,
+             atoms[iatom] = Atom(a.index,a.residue,a.resid,a.name,a.resname,a.segname,a.type,a.element,
                                  a.charge,a.mass,eps,rmin,eps14,rmin14,a.backbone,a.coor)
              check_atoms[iatom] = true
            end

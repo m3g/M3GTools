@@ -14,7 +14,7 @@ function getpdbcoords!(pdbfile,atoms)
       iatom = iatom + 1
       coor = [ parse(Float64,line[31:38]), parse(Float64,line[39:46]),  parse(Float64,line[47:54]) ]
       a = atoms[iatom]
-      atoms[iatom] = Atom(a.index,a.residue,a.resid,a.name,a.resname,a.segname,a.type,
+      atoms[iatom] = Atom(a.index,a.residue,a.resid,a.name,a.resname,a.segname,a.type,a.element,
                           a.charge,a.mass,a.eps,a.rmin,a.eps14,a.rmin14,a.backbone,
                           coor)
     end

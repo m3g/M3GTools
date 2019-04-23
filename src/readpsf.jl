@@ -112,6 +112,14 @@ function readpsf(psf)
       resname = data[4]
       segname = data[2]
       type = data[6]
+
+      elem = try
+        iel = parse(Int,type[1:1])
+        type[2:2]
+      catch
+        type[1:1]
+      end
+
       charge = parse(Float64,data[7])
       mass = parse(Float64,data[8])
 
@@ -126,7 +134,7 @@ function readpsf(psf)
       rmin14 = 0.
       coor = zeros(3)
 
-      atoms[iatom] = Atom(index,residue,resid,name,resname,segname,type,
+      atoms[iatom] = Atom(index,residue,resid,name,resname,segname,type,elem,
                           charge,mass,eps,rmin,eps14,rmin14,backbone,coor)
 
       if iatom == natoms 
