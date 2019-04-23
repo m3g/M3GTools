@@ -86,6 +86,6 @@ function nhbonds(atoms,bonds,sel1,sel2; d = 3., angle = 20. )
     end
   end
 
- return nhbonds
+  return nhbonds
 end
 
