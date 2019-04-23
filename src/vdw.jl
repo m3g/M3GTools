@@ -50,7 +50,7 @@ function vdw(atoms :: Vector{Atom}, sel1 :: Vector{Int}, sel2 :: Vector{Int},
       rminpair6 = ( atoms[i].rmin + atoms[j].rmin )^6
       vdw = vdw + vdwpair(d2,epspair,rminpair6)
       if usecutoff
-        if d2 < cutoff2
+        if d2 > cutoff2
           vdw = vdw - vdwpair(cutoff2,epspair,rminpair6)
         end
       end
@@ -93,7 +93,7 @@ function vdw2( atoms :: Vector{Atom}, sel1 :: Vector{Int}, sel2 :: Vector{Int},
       rminpair6 = ( atoms[i].rmin + atoms[j].rmin )^6
       vdw = vdw + vdwpair(d2,epspair,rminpair6)
       if usecutoff
-        if d2 < cutoff2
+        if d2 > cutoff2
           vdw = vdw - vdwpair(cutoff2,epspair,rminpair6)
         end
       end

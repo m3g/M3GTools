@@ -32,13 +32,11 @@ function coulomb(atoms :: Vector{Atom}, sel1 :: Vector{Int}, sel2 :: Vector{Int}
     end
     for j in 1:n2
       d = sqrt((x[sel1[i]] - x[sel2[j]])^2 + (y[sel1[i]] - y[sel2[j]])^2 + (z[sel1[i]] - z[sel2[j]])^2)
+      coulomb = coulomb + qpair(d,atoms[sel1[i]].charge,atoms[sel2[j]].charge)
       if usecutoff
         if d < cutoff
-          coulomb = coulomb + qpair(d,atoms[sel1[i]].charge,atoms[sel2[j]].charge)
           coulomb = coulomb - qpair(cutoff,atoms[sel1[i]].charge,atoms[sel2[j]].charge)
         end
-      else
-        coulomb = coulomb + qpair(d,atoms[sel1[i]].charge,atoms[sel2[j]].charge)
       end
     end
   end
@@ -73,13 +71,11 @@ function coulomb2( atoms :: Vector{Atom}, sel1 :: Vector{Int}, sel2 :: Vector{In
       d = sqrt( (atoms[i].coor[1] - atoms[j].coor[1])^2 +
                 (atoms[i].coor[2] - atoms[j].coor[2])^2 +
                 (atoms[i].coor[3] - atoms[j].coor[3])^2 )
+      coulomb = coulomb + qpair(d,atoms[i].charge,atoms[j].charge)
       if usecutoff 
         if d < cutoff
-          coulomb = coulomb + qpair(d,atoms[i].charge,atoms[j].charge)
           coulomb = coulomb - qpair(cutoff,atoms[i].charge,atoms[j].charge)
         end
-      else
-        coulomb = coulomb + qpair(d,atoms[i].charge,atoms[j].charge)
       end 
     end
   end

@@ -1,0 +1,24 @@
+#
+# Output of energy.f:
+# Input file: test.dat.energyinp
+# DCD file: ./structure.dcd
+# Group file: test.dat.groupstemp
+# PSF file: ./structure.psf
+# Cutoff:       12.000
+# First frame:     1 Last frame:     5 Stride:     1
+#
+# Periodic conditions: 
+# Periodic: T Read from DCD: T Center atom: F      0
+#
+# Number of atoms of group 1:     24
+# First and last atoms of group 1:    512    535
+# Number of atoms of group 2:     10
+# First and last atoms of group 2:    456    465
+#
+# Total interaction energies of group 1 with group 2
+#  TIME                 TOT               ELEC                VDW
+0.100000E-02          -5.584816          -4.999484          -0.585332
+0.200000E-02          -4.292215          -4.410111           0.117896
+0.300000E-02          -5.482268          -6.219147           0.736879
+0.400000E-02          -5.470828          -4.562191          -0.908636
+0.500000E-02          -5.647180          -5.706150           0.058970

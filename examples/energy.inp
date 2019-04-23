@@ -1,0 +1,43 @@
+#
+# Example input file for energy.f90
+#
+# Version 17.224
+#
+
+# System:
+psf ./structure.psf
+dcd ./structure.dcd
+
+# Group definitions: group1 and group2 can be VMD-style selections
+# if the program is running from the energy.sh script (and VMD is available)
+group1 residue 33
+group2 residue 29
+
+# Otherwise, use a pdb file with beta factors (1.00 for group1 and 2.00 for group2)
+#groups ./teste.pdb
+
+# Output file:
+output test.dat
+
+# Options:
+firstframe 1
+lastframe last 
+stride 1
+cutoff 12.
+
+# Scale the x-axis by
+scaletime 0.001
+
+# Periodic cell (use: no, readfromdcd, or three real numbers)
+periodic readfromdcd
+#periodic no
+#periodic 80.785998702 80.7870016098 80.78000
+#centeratom 2759
+
+# Parameter files
+par /home/leandro/programs/toppar/charmm/par_all36_prot.prm
+par /home/leandro/programs/toppar/charmm/toppar_water_ions.str
+par /home/leandro/programs/toppar/charmm/par_all36_lipid.prm
+
+
+

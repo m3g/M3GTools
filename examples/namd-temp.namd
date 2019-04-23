@@ -1,0 +1,31 @@
+################################################################################
+
+  
+  # NAMD configuration file generated automatically by NAMDenergy
+
+  # It may be ugly, but it should work.
+
+  # I wouldn't recommend using it for anything else though.
+
+  ################################################################################
+
+structure		structure.psf
+paraTypeCharmm		on
+parameters		/home/leandro/programs/vmd/plugins/noarch/tcl/readcharmmpar1.2/par_all27_prot_lipid_na.inp
+parameters		/home/leandro/programs/toppar/charmm/par_all36_prot.prm
+parameters		/home/leandro/programs/toppar/charmm/toppar_water_ions.str
+parameters		/home/leandro/programs/toppar/charmm/par_all36_lipid.prm
+numsteps		 1
+exclude			 scaled1-4
+outputname		 namd-temp
+temperature		 0
+COMmotion 		 yes
+cutoff			 12
+dielectric		 1.0
+switchdist		 10
+pairInteraction		 on
+pairInteractionGroup1 1
+pairInteractionFile   namd-temp.pdb
+pairInteractionGroup2 2
+coordinates namd-temp.pdb
+run 0
