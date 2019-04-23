@@ -1,3 +1,4 @@
+
 # 
 # Select atoms using vmd selection syntax, with vmd in background
 #
@@ -42,4 +43,48 @@ function select(simulation :: Simulation, selection :: String)
   return selection_indexes
 
 end
+
+#
+# select atoms using VMD selection syntax
+#
+
+#function select(atoms :: Vector{PDBEnergy.Atom}, selection :: String)
+#
+#  sel = selection
+#
+#  keys = [ "name" ]
+#
+#  seldata = split(sel)
+#  code = "("
+#  for str in seldata
+#    if str in keys 
+#      str = replace(sel, key => "atom.$key in [" )
+#    else
+#
+#    end
+#    code = "$code $str"
+#  end
+#  
+#  code = "[ atom.index for atom in filter( atom -> ( $sel ), atoms ) ]"
+#
+#  println(code)
+#
+#
+#  #return selection_indexes
+#end
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
