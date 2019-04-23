@@ -25,4 +25,7 @@ module PDBEnergy
   include("./src/vdw.jl")
   export vdw
 
+  include("./src/nhbonds.jl")
+  export nhbonds
+
 end

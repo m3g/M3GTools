@@ -14,11 +14,11 @@ atoms, bonds, angles, dihedrals, impropers = readpsf("./structure.psf");
 # Load coordinates from PDB
 getpdbcoords!("./structure.pdb",atoms);
 
-# Select atoms of residue number 17
-sel1 = [ atom.index for atom in filter( atom -> atom.residue == 17, atoms) ];
+# Select atoms of residue number 34
+sel1 = [ atom.index for atom in filter( atom -> atom.residue == 34, atoms) ];
 
-# Select atoms of residue number 19
-sel2 = [ atom.index for atom in filter( atom -> atom.residue == 19, atoms) ];
+# Select atoms of residue number 30
+sel2 = [ atom.index for atom in filter( atom -> atom.residue == 30, atoms) ];
 
 # Compute electrostatic interaction between these two selections
 elecenergy = coulomb(atoms,sel1,sel2);
@@ -32,7 +32,11 @@ readprm!(parfiles,atoms)
 # Compute vdw interaction between these two selections
 vdwenergy = vdw(atoms,sel1,sel2);
 
-println("Electrostatic interaction between residues 17 and 19 = $elecenergy")
-println("vdW interaction between residues 17 and 19 = $vdwenergy") 
+println("Electrostatic interaction between residues 30 and 34 = $elecenergy")
+println("vdW interaction between residues 30 and 34 = $vdwenergy") 
+
+# Compute the number of hydrogen bonds between two selections
+nhb = nhbonds(atoms,bonds,sel1,sel2)
+println("Number of H-bonds between residues 30 and 34 = $nhb")
 
 
