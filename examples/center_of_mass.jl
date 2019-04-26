@@ -57,6 +57,7 @@ function main()
   x = [ i for i in 1:mysim.nframes ]
   plot(x,diff)
   savefig("example1.pdf")
+  println(" Created figure: example1.pdf")
 
 end; main()
 

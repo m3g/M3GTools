@@ -50,6 +50,7 @@ function main()
   x = [ i for i in 1:mysim.nframes ]
   plot(x,d)
   savefig("example2.pdf")
+  println(" Created figure: example2.pdf")
 
 end; main()
 

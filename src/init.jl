@@ -34,6 +34,7 @@ function init(;psf=nothing,
       nframes = getnframes(FortranDCD, dcdaxis)
     end
   else
+    dcd = "none"
     nframes = 0
     dcdaxis = false
     FortranDCD = FortranFile(psf)
@@ -137,7 +138,7 @@ function init(;psf=nothing,
                       elect,vdw,boundary,misc,kinetic,total,temperature,potential,total3,tempavg,
                       pressure,gpressure,volume,pressavg,gpressavg)
   else
-    logfile = log
+    logfile = "none"
     logdata = LogData()
   end
 
@@ -148,6 +149,5 @@ function init(;psf=nothing,
                           logfile,logdata)
 
   return simulation
-
 end
 

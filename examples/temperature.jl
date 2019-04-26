@@ -24,5 +24,6 @@ plot!(xlabel="time / ns")
 plot!(ylabel="temperature / K")
 
 savefig("temperature.pdf")
+println(" Created figure: temperature.pdf")
 
 

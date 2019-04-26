@@ -5,10 +5,19 @@
 module PDBEnergy
 
   include("./src/Atom.jl")
+  export Atom
+
   include("./src/Bond.jl")
+  export Bond
+
   include("./src/Angle.jl")
+  export Angle
+
   include("./src/Dihedral.jl")
+  export Dihedral
+
   include("./src/Improper.jl")
+  export Improper
 
   include("./src/readpsf.jl") 
   export readpsf

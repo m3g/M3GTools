@@ -2,9 +2,9 @@
 module Namd
 
   using FortranFiles
+  using PDBEnergy
+  include("./src/Simulation.jl")
 
-  include("./src/structures.jl")
-  include("./src/readpsf.jl")
   include("./src/init.jl")
 
   include("./src/select.jl")
@@ -13,7 +13,6 @@ module Namd
   include("./src/cm.jl")
   include("./src/pbc.jl")
   include("./src/distance.jl")
-  include("./src/elec.jl")
   include("./src/tcf.jl")
   include("./src/procrustes.jl")
 

@@ -56,5 +56,6 @@ close(f)
 println(" Plotting... ")
 plot(t,legendre)
 savefig("tcf.pdf")
+println(" Created figure: tcf.pdf")
 
 
