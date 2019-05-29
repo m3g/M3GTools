@@ -3,7 +3,7 @@
 Computing GMD contributions for the parts of the solute
 
 """
-function getgmd( gmd :: Array{}, sel1 :: String, sel2 :: String )
+function gmdget( gmd :: Array{}, sel1 :: String, sel2 :: String )
 
   # gmd is the array resulting from reading the gmd contributions per atom
   # for the solute, produced by the gmd.f90 program of mdanalysis
@@ -33,7 +33,7 @@ function getgmd( gmd :: Array{}, sel1 :: String, sel2 :: String )
 
   return gmd_get
 
-end function getgmd
+end function gmdget
 
-getgmd( gmd :: Array{}; data = "none"; get = "none" ) = return getgmd( gmd, data, get )
+gmdget( gmd :: Array{}; data = "none"; get = "none" ) = return gmdget( gmd, data, get )
 

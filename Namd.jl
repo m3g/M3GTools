@@ -16,5 +16,7 @@ module Namd
   include("./src/tcf.jl")
   include("./src/procrustes.jl")
 
+  include("./src/gmdget.jl")
+
 end
 

@@ -26,9 +26,9 @@ gmd_total = gmd_solute[:,2]
 
 # Define the solute selection used for computation of the GMD here:
 
-gmd_backbone = Namd.getgmd(gmd_solute,data="protein",get="protein and backbone")
-gmd_aliphatic = Namd.getgmd(gmd_solute,data="protein",get="protein and aliphatic")
-gmd_charged = Namd.getgmd(gmd_solute,data="protein",get="protein and charged")
+gmd_backbone = Namd.gmdget(gmd_solute,data="protein",get="protein and backbone")
+gmd_aliphatic = Namd.gmdget(gmd_solute,data="protein",get="protein and aliphatic")
+gmd_charged = Namd.gmdget(gmd_solute,data="protein",get="protein and charged")
 
 # Plot the results
 
