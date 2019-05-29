@@ -3,7 +3,8 @@
 Computing GMD contributions for the parts of the solute
 
 """
-function gmdget(mysim :: Simulation, gmd :: Array{}, sel1 :: String, sel2 :: String )
+
+function gmdget(topology :: String, gmd :: Array{}, sel1 :: String, sel2 :: String; vmd="vmd" )
 
   # gmd is the array resulting from reading the gmd contributions per atom
   # for the solute, produced by the gmd.f90 program of mdanalysis
@@ -11,8 +12,8 @@ function gmdget(mysim :: Simulation, gmd :: Array{}, sel1 :: String, sel2 :: Str
   # The first selection corresponds the the total solute, the second
   # selection to the section of the solute that will be considered here 
 
-  sel1 = Namd.select(mysim,sel1)
-  sel2 = Namd.select(mysim,sel2)
+  sel1 = Namd.select(topology,sel1,vmd=vmd)
+  sel2 = Namd.select(topology,sel2,vmd=vmd)
 
   # To do so, define a vector that contains the index in "solute" of the atoms
   # of the "backbone" selection. We sum 2 because this will correspond directly
@@ -35,5 +36,8 @@ function gmdget(mysim :: Simulation, gmd :: Array{}, sel1 :: String, sel2 :: Str
 
 end
 
-gmdget(mysim :: Simulation, gmd :: Array{}; data = "none", get = "none" ) = return gmdget(mysim, gmd, data, get)
+gmdget(topology :: String, gmd :: Array{}; data = "none", get = "none", vmd="vmd" ) = gmdget(topology, gmd, data, get, vmd=vmd)
+
+gmdget(simulation :: Simulation, gmd :: Array{}; data, get) = gmdget(simulation, gmd, data, get, vmd=simulation.vmd)
+gmdget(simulation :: Simulation, gmd :: Array{}; data = "none", get = "none" ) = gmdget(simulation.psf, gmd, data, get, vmd=simulation.vmd)
 

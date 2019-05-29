@@ -47,7 +47,7 @@ end
 
 # Method to return the selection if what was provided was the Simulation object. 
 
-select(simulation :: Simulation, selection :: String) = select( "$(simulation.psf)", selection, vmd="$(simulation.vmd)" )
+select(simulation :: Simulation, selection :: String) = select( simulation.psf, selection, vmd=simulation.vmd )
 
 #
 # select atoms using VMD selection syntax
