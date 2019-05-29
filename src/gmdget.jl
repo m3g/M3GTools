@@ -38,6 +38,6 @@ end
 
 gmdget(topology :: String, gmd :: Array{}; data = "none", get = "none", vmd="vmd" ) = gmdget(topology, gmd, data, get, vmd=vmd)
 
-gmdget(simulation :: Simulation, gmd :: Array{}; data, get) = gmdget(simulation, gmd, data, get, vmd=simulation.vmd)
+gmdget(simulation :: Simulation, gmd :: Array{}, data, get) = gmdget(simulation, gmd, data, get, vmd=simulation.vmd)
 gmdget(simulation :: Simulation, gmd :: Array{}; data = "none", get = "none" ) = gmdget(simulation.psf, gmd, data, get, vmd=simulation.vmd)
 

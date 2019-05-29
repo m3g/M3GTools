@@ -35,6 +35,7 @@ plot!(d,gmd_backbone,label="Backbone")
 plot!(d,gmd_aliphatic,label="Aliphatic")
 plot!(d,gmd_charged,label="Charged")
 savefig("./gmd_solute.pdf")
+println(" Created plot: ./gmd_solute.pdf")
 
 # Of course, you can save the data for further analysis:
 
@@ -42,5 +43,6 @@ output = open("./gmd_solute_contributions.dat","w")
 write(output,"# Distance Total Backbone Aliphatic Charged \n")
 writedlm(output,zip(d,gmd_total,gmd_backbone,gmd_aliphatic,gmd_charged))
 close(output)
+println(" Wrote file: ./gmd_solute_contribution.dat")
 
 
