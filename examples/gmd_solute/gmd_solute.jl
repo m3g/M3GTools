@@ -25,24 +25,24 @@ d = gmd_solute[:,1]
 gmd_total = gmd_solute[:,2]
 
 # Define the solute selection used for computation of the GMD here:
-gmd_backbone = Namd.gmdget(topology,gmd_solute,data="protein",get="protein and (backbone or name HN)")
-gmd_aliphatic = Namd.gmdget(topology,gmd_solute,data="protein",get="protein and aliphatic")
-gmd_charged = Namd.gmdget(topology,gmd_solute,data="protein",get="protein and charged")
+gmd_backbone = Namd.gmdget(topology,gmd_solute,data="protein",get="protein and (not sidechain)")
+gmd_aliphatic = Namd.gmdget(topology,gmd_solute,data="protein",get="protein and sidechain and aliphatic")
+gmd_aromatic = Namd.gmdget(topology,gmd_solute,data="protein",get="protein and sidechain and aromatic")
+gmd_polar = Namd.gmdget(topology,gmd_solute,data="protein",get="protein and sidechain and polar")
 
 # Plot the results
-plot(d,gmd_total,label="Total")
-plot!(d,gmd_backbone,label="Backbone")
-plot!(d,gmd_aliphatic,label="Aliphatic")
-plot!(d,gmd_charged,label="Charged")
+plot(xlim=[0,8],xlabel="Distance / Angstrom",ylabel="MDDF")
+plot!(d,gmd_total,label="Total",linewidth=2)
+plot!(d,gmd_backbone,label="Backbone",linewidth=2)
+plot!(d,gmd_aliphatic,label="Aliphatic",linewidth=2)
+plot!(d,gmd_aromatic,label="Aromatic",linewidth=2)
+plot!(d,gmd_polar,label="Polar",linewidth=2)
 savefig("./gmd_solute.pdf")
-println(" Created plot: ./gmd_solute.pdf")
 
 # Of course, you can save the data for further analysis:
 
 output = open("./gmd_solute_contributions.dat","w")
-write(output,"# Distance Total Backbone Aliphatic Charged \n")
-writedlm(output,zip(d,gmd_total,gmd_backbone,gmd_aliphatic,gmd_charged))
+write(output,"# Distance Total Backbone Aliphatic Aromatic Polar\n")
+writedlm(output,zip(d,gmd_total,gmd_backbone,gmd_aliphatic,gmd_aromatic,gmd_polar))
 close(output)
 println(" Wrote file: ./gmd_solute_contribution.dat")
-
-
