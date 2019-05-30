@@ -16,10 +16,6 @@ and TMAO (for more details, see: http://pubs.acs.org/doi/abs/10.1021/acs.jctc.7b
 The Protein-TMAO MDDF is shown below, and indicates that TMAO interacts with the protein surface:
 
 <p align="center">
-<img src="https://github.com/mcubeg/topolink/blob/master/julia/examples/davis_nxl.png?raw=true">
-<br><br>
-<a href="https://github.com/mcubeg/topolink/blob/master/julia/examples/davis_nxl.jl">
-Complete Example
-</a>
+<img src="https://github.com/mcubeg/namdjl/blob/master/examples/gmd_solute/gmdfiles/gmdtotal.png?raw=true">
 </p>
 
