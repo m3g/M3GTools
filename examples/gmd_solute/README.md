@@ -9,7 +9,7 @@ distribution function into the contributions of the backbone and some
 specific side-chains. 
 
 The MDDF must be computed with the GMD module of the MDAnalysis suite of
-packages, which is available here:
+packages (version 19.148 or greater), which is available here:
 
 http://leandro.iqm.unicamp.br/mdanalysis/gmd
 
