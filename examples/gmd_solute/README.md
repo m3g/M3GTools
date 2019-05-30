@@ -30,8 +30,8 @@ To generate this data, just follow the example provided in
 `gmd_solute.jl`. You will need the file created by the GMD module of
 MDAnalysis mentioned above, containing the contribution of each solute
 atom the distribution function. This file, in this example, is called:
-``` gmd-GMD_ATOM_SOLUTE_CONTRIB.dat
-
+``` 
+gmd-GMD_ATOM_SOLUTE_CONTRIB.dat
 ```
 This file is loaded with the command (which requires the `DelimitedFiles` package):
 
