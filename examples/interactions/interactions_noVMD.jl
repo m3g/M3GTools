@@ -2,17 +2,20 @@
 # git clone https://github.com/mcubeg/namdjl
 #
 
+# In this example we compute the energy without using the complete Namd.jl package, and
+# without calling VMD in background
+
 # Path to PDBEnergy module
-push!(LOAD_PATH, "../");
+push!(LOAD_PATH, "../../");
 
 # Load PDB energy module
 using PDBEnergy
 
 # Load PSF file data
-atoms, bonds, angles, dihedrals, impropers = readpsf("./structure.psf");
+atoms, bonds, angles, dihedrals, impropers = readpsf("../simulation_files/structure.psf");
 
 # Load coordinates from PDB
-getpdbcoords!("./structure.pdb",atoms);
+getpdbcoords!("../simulation_files/structure.pdb",atoms);
 
 # Select atoms of residue number 34
 sel1 = [ atom.index for atom in filter( atom -> atom.residue == 34, atoms) ];

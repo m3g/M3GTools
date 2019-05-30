@@ -5,19 +5,39 @@
 function init(;psf=nothing,
                dcd=nothing,
                log=nothing,
+               pdb=nothing,
+               parfiles=nothing,
                vmd="vmd")
 
   #
-  # Read number of atoms and masses from PSF file
+  # Read PSF file data
   #
-
-  local natoms, atom, dcdaxis
 
   if psf == nothing
     error(" At least a PSF must be provided with psf=filename.psf ")
   end
   atoms, bonds, angles, dihedrals, impropers = readpsf(psf)
   natoms = length(atoms)
+  nbonds = length(bonds)
+  nangles = length(angles)
+  ndihedrals = length(dihedrals)
+  nimpropers = length(impropers)
+
+  # Reading coordinates from PDB file, if provided
+
+  if pdb != nothing
+    getpdbcoords!(pdb,atoms)
+  else
+    pdb = "none"
+  end
+
+  # Reading parameter files, if provided
+
+  if parfiles != nothing
+    readprm!(parfiles,atoms,bonds,angles,dihedrals,impropers)
+  else
+    parfiles = ["none"]
+  end
 
   #
   # Reads DCD file header, returns nframes (correctly, if set) and ntotat
@@ -142,11 +162,16 @@ function init(;psf=nothing,
     logdata = LogData()
   end
 
-  simulation = Simulation(psf,dcd,
-                          natoms,atoms,nframes,dcdaxis,
+  simulation = Simulation(psf,pdb,dcd,
+                          natoms,atoms,
+                          nbonds,bonds,
+                          nangles,angles,
+                          ndihedrals,dihedrals,
+                          nimpropers,impropers,
+                          nframes,dcdaxis,
                           vmd,
                           FortranDCD,
-                          logfile,logdata)
+                          logfile,logdata,parfiles)
 
   return simulation
 end

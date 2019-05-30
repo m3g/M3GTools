@@ -3,10 +3,23 @@ include("./LogData.jl")
 struct Simulation
 
   psf :: String
+  pdb :: String
   dcd :: String
 
   natoms :: Int64
-  atom :: Vector{Atom}
+  atoms :: Vector{Atom}
+
+  nbonds :: Int64
+  bonds :: Vector{Bond}
+
+  nanbles :: Int64
+  angles :: Vector{Angle}
+
+  ndihedrals :: Int64
+  dihedrals :: Vector{Dihedral}
+
+  nimpropers :: Int64
+  improper :: Vector{Improper}
 
   nframes :: Int64
   dcdaxis :: Bool
@@ -17,6 +30,8 @@ struct Simulation
 
   logfile :: String
   log :: LogData
+
+  parfiles :: Vector{String}
 
 end
 

@@ -4,7 +4,7 @@ Computing GMD contributions for the parts of the solute
 
 """
 
-push!(LOAD_PATH,"../")
+push!(LOAD_PATH,"../../")
 
 using Namd
 using DelimitedFiles
@@ -13,8 +13,8 @@ println(" Loading Plots... ")
 using Plots
 ENV["GKSwstype"]="nul" # This supresses the need of a display while plotting
 
-# Data for my simulation (we only need the PSF file here)
-mysim = Namd.init(psf="./gmdfiles/test.psf",vmd="vmd")
+# Data for my simulation (we only need the topoloy file here, might be PSF or GRO
+topology = "./gmdfiles/test.psf"
 
 # Read GMD file corresponding to solute contributions
 println(" Reading GMD solute contribution file... ")
@@ -25,9 +25,9 @@ d = gmd_solute[:,1]
 gmd_total = gmd_solute[:,2]
 
 # Define the solute selection used for computation of the GMD here:
-gmd_backbone = Namd.gmdget(mysim,gmd_solute,data="protein",get="protein and backbone")
-gmd_aliphatic = Namd.gmdget(mysim,gmd_solute,data="protein",get="protein and aliphatic")
-gmd_charged = Namd.gmdget(mysim,gmd_solute,data="protein",get="protein and charged")
+gmd_backbone = Namd.gmdget(topology,gmd_solute,data="protein",get="protein and (backbone or name HN)")
+gmd_aliphatic = Namd.gmdget(topology,gmd_solute,data="protein",get="protein and aliphatic")
+gmd_charged = Namd.gmdget(topology,gmd_solute,data="protein",get="protein and charged")
 
 # Plot the results
 plot(d,gmd_total,label="Total")

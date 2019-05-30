@@ -5,7 +5,7 @@ rotations of the side chain of a trp residue
 
 """
 
-push!(LOAD_PATH,"../")
+push!(LOAD_PATH,"../../")
 using Namd
 
 println(" Loading Plots... ")
@@ -14,8 +14,8 @@ ENV["GKSwstype"]="nul" # This supresses the need of a display while plotting
 
 # Initialize simulation data and path to VMD executable
 println(" Reading simulation data ... ")
-mysim = Namd.init(psf="./structure.psf",
-                  dcd="./structure.dcd",
+mysim = Namd.init(psf="../simulation_files/structure.psf",
+                  dcd="../simulation_files/structure.dcd",
                   vmd="vmd")
 
 println(" Defining selections... ")
