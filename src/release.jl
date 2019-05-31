@@ -22,9 +22,10 @@ tagdiff = read(`git log --pretty=oneline $range`)
 println("----------------------")
 println("CHANGE LOG:")
 println("----------------------")
-for line in eachline(tagdiff)
-  println(line)
-end
+println(tagdiff)
+#for line in eachline(tagdiff)
+#  println(line)
+#end
 println("----------------------")
 
 
