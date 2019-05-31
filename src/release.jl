@@ -10,6 +10,18 @@ while version in tags
 end
 println("Will create version: $version")
 
+# Update version file:
+
+version_func = "
+function version()
+  version = \"$version\"
+  println(\"Version: \$version\")
+end
+"
+
+file = open("./version.jl","w")
+write(file,version_func)
+close(file)
 run(`git add -A`)
 run(`git commit -m "updated version file to $version"`)
 run(`git tag -a $version -m "Release $version"`)
@@ -30,5 +42,9 @@ for line in tagdiff
   println(line)
 end
 println("----------------------")
+
+
+
+
 
 
