@@ -14,11 +14,10 @@ println("Will create version: $version")
 run(`git add -A`)
 run(`git commit -m "updated version file to $version"`)
 run(`git tag -a $version -m "Release $version"`)
-#run(`git push origin master tag $version`)
+run(`git push origin master tag $version`)
 
 range = read(`git tag '|' tail -n 2 '|' xargs '|' sed 's! !...!'`)
-println(range)
-#tagdiff = read(`git log --pretty=oneline $range '|' awk '{$1=""; print "-"$0}'`)
+tagdiff = read(`git log --pretty=oneline $range '|' awk '{$1=""; print "-"$0}'`)
 
 println("----------------------")
 println("CHANGE LOG:")
