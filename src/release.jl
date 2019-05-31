@@ -16,7 +16,7 @@ run(`git tag -a $version -m "Release $version"`)
 run(`git push origin master tag $version`)
 
 range = "$(tags[length(tags)])...$version"
-tagdiff = split(read(`git log --pretty=oneline $range`,String))
+tagdiff = split(read(`git log --pretty=oneline $range`,String),'\n')
 println(tagdiff)
 
 #println("----------------------")
