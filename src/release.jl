@@ -15,7 +15,7 @@ run(`git commit -m "updated version file to $version"`)
 run(`git tag -a $version -m "Release $version"`)
 run(`git push origin master tag $version`)
 
-range = "$tags[length(tags)]...$version"
+range = "$(tags[length(tags)])...$version"
 
 println(range)
 
