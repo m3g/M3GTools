@@ -16,15 +16,16 @@ run(`git tag -a $version -m "Release $version"`)
 run(`git push origin master tag $version`)
 
 range = "$(tags[length(tags)])...$version"
-tagdiff = split(read(`git log --pretty=oneline $range`,String),'\n')
-
-println("----------------------")
-println("CHANGE LOG:")
-println("----------------------")
+tagdiff = split(read(`git log --pretty=oneline $range`,String))
 println(tagdiff)
-for line in eachline(tagdiff)
-  println(line)
-end
-println("----------------------")
+
+#println("----------------------")
+#println("CHANGE LOG:")
+#println("----------------------")
+#println(tagdiff)
+#for line in eachline(tagdiff)
+#  println(line)
+#end
+#println("----------------------")
 
 
