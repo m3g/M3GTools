@@ -18,5 +18,7 @@ module Namd
 
   include("./src/gmdget.jl")
 
+  include("./src/version.jl")
+
 end
 
