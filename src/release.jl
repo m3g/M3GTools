@@ -1,4 +1,3 @@
-
 using Dates
 tags = split(read(`git tag`,String))
 version_base = "$(Dates.year(Dates.today())-2000).$(Dates.dayofyear(Dates.today()))"
