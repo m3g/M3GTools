@@ -1,12 +1,13 @@
 
 using Dates
 tags = split(read(`git tag`,String))
-version = "$(Dates.year(Dates.today())-2000).$(Dates.dayofyear(Dates.today()))"
+version_base = "$(Dates.year(Dates.today())-2000).$(Dates.dayofyear(Dates.today()))"
 i = 1
+version = version_base
 while version in tags 
-  global i, version
+  global i, version, version_base
   i = i + 1
-  version = version*".$i"
+  version = version_base*".$i"
 end
 println("Will create version: $version")
 
