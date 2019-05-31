@@ -21,8 +21,10 @@ tagdiff = split(read(`git log --pretty=oneline $range`,String),'\n')
 println("----------------------")
 println("CHANGE LOG:")
 println("----------------------")
-println(tagdiff)
 for line in tagdiff
+  if length(line) < 1
+    continue
+  end
   num = split(line)[1]
   line = replace(line, num => "-")
   println(line)
