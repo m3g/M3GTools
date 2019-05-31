@@ -18,6 +18,7 @@ run(`git tag -a $version -m "Release $version"`)
 
 range = read(`git tag '|' tail -n 2 '|' xargs '|' sed 's! !...!'`)
 println(range)
+exit
 tagdiff = read(`git log --pretty=oneline $range '|' awk '{$1=""; print "-"$0}'`)
 
 println("----------------------")
