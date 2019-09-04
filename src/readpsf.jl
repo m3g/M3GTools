@@ -90,7 +90,7 @@ function readpsf(psf)
     # Read atoms
     #
 
-    if data[2] ==  "!NATOM" 
+    if data[2] ==  "!NATOM" && natoms > 0 
       read_atoms = true
       continue
     end
@@ -147,7 +147,7 @@ function readpsf(psf)
     # Read bonds
     #
 
-    if data[2] == "!NBOND:"
+    if data[2] == "!NBOND:" && nbonds > 0
       read_bonds = true
       continue
     end
@@ -170,7 +170,7 @@ function readpsf(psf)
     # Read angles
     #
 
-    if data[2] == "!NTHETA:"
+    if data[2] == "!NTHETA:" && nangles > 0
       read_angles = true
       continue
     end
@@ -195,7 +195,7 @@ function readpsf(psf)
     # Read dihedrals
     #
 
-    if data[2] == "!NPHI:"
+    if data[2] == "!NPHI:" && ndihed > 0
       read_dihed = true
       continue
     end
@@ -220,7 +220,7 @@ function readpsf(psf)
     # Read impropers
     #
 
-    if data[2] == "!NIMPHI:"
+    if data[2] == "!NIMPHI:" && nimpr > 0
       read_impr = true
       continue
     end
