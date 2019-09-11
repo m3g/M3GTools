@@ -6,7 +6,7 @@ Computing GMD contributions for the parts of the solute
 
 push!(LOAD_PATH,"../../")
 
-using Namd
+using M3GTools
 using DelimitedFiles
 
 println(" Loading Plots... ")
@@ -25,10 +25,10 @@ d = gmd_solute[:,1]
 gmd_total = gmd_solute[:,2]
 
 # Define the solute selection used for computation of the GMD here:
-gmd_backbone = Namd.gmdget(topology,gmd_solute,data="protein",get="protein and (not sidechain)")
-gmd_aliphatic = Namd.gmdget(topology,gmd_solute,data="protein",get="protein and sidechain and aliphatic")
-gmd_aromatic = Namd.gmdget(topology,gmd_solute,data="protein",get="protein and sidechain and aromatic")
-gmd_polar = Namd.gmdget(topology,gmd_solute,data="protein",get="protein and sidechain and polar")
+gmd_backbone = M3GTools.gmdget(topology,gmd_solute,data="protein",get="protein and (not sidechain)")
+gmd_aliphatic = M3GTools.gmdget(topology,gmd_solute,data="protein",get="protein and sidechain and aliphatic")
+gmd_aromatic = M3GTools.gmdget(topology,gmd_solute,data="protein",get="protein and sidechain and aromatic")
+gmd_polar = M3GTools.gmdget(topology,gmd_solute,data="protein",get="protein and sidechain and polar")
 
 # Plot the results
 plot(xlim=[0,8],xlabel="Distance / Angstrom",ylabel="MDDF")

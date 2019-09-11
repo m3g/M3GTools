@@ -87,7 +87,7 @@ end
 function nextframe(simulation :: Simulation;lastatom=0)  
 
   if simulation.natoms == 0
-    error(" ERROR: Set natoms before reading frames with Namd.init ")
+    error(" ERROR: Set natoms before reading frames with M3GTools.init ")
   else
     lastatom = simulation.natoms
   end
@@ -157,7 +157,7 @@ function writedcd(natoms,nframes,dcdaxis,sides,x,y,z;filename="Namdjl_DCDTEMP.dc
 
 #voltar: não funcionou
   write(dcdtemp,FString(4,hdr),Int32(nframes),IntVec[1:8],Float64(ts),IntVec[9:17])
-  write(dcdtemp,Int32(1),FString(80,"DCDTEMP created by Namdjl"))
+  write(dcdtemp,Int32(1),FString(80,"DCDTEMP created by M3GTools"))
   write(dcdtemp,Int32(natoms))
 
   if nframes == 1 

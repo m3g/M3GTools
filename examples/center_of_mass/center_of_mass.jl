@@ -6,7 +6,7 @@ are computed, and the difference between the z-coordinates of them is ploted.
 """
 
 push!(LOAD_PATH,"../../")
-using Namd
+using M3GTools
 
 println(" Loading Plots... ")
 using Plots
@@ -16,13 +16,13 @@ ENV["GKSwstype"]="nul" # This supresses the need of a display while plotting
 
 println(" Reading simulation data ... ")
 
-mysim = Namd.init(psf="../simulation_files/structure.psf",
-                  dcd="../simulation_files/structure.dcd",
-                  vmd="vmd")
+mysim = M3GTools.init(psf="../simulation_files/structure.psf",
+                      dcd="../simulation_files/structure.dcd",
+                      vmd="vmd")
 
 println(" Defining selections... ")
-popc = Namd.select(mysim,"resname POPC")
-prot = Namd.select(mysim,"protein")
+popc = M3GTools.select(mysim,"resname POPC")
+prot = M3GTools.select(mysim,"protein")
 
 println(" Computing center of masses... ")
 popc_cm = Array{Float32}(undef,mysim.nframes,3)
@@ -30,19 +30,19 @@ prot_cm = Array{Float32}(undef,mysim.nframes,3)
 cm = Array{Float32}(undef,3)
 
 for i in 1:mysim.nframes
-  sides, x, y, z = Namd.nextframe(mysim)
+  sides, x, y, z = M3GTools.nextframe(mysim)
 
-  cm = Namd.cm(popc,mysim,x,y,z)
+  cm = M3GTools.cm(popc,mysim,x,y,z)
   for j in 1:3 
     popc_cm[i,j] = cm[j]
   end
-  cm = Namd.cm(prot,mysim,x,y,z)
+  cm = M3GTools.cm(prot,mysim,x,y,z)
   for j in 1:3 
     prot_cm[i,j] = cm[j]
   end
 
 end
-Namd.closedcd(mysim)
+M3GTools.closedcd(mysim)
 
 # Printing the difference in the Z-coordinate of the center of
 # masses of the selections

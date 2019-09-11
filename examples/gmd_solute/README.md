@@ -49,7 +49,7 @@ To extract the contribution of a specific set of atoms given by a
 selection with VMD syntax, use the `gmdget` function, as in the example:
 ```
 topology = "/structure.psf"
-gmd_backbone = Namd.gmdget(topology,gmd_solute,data="protein",get="protein and (not sidechain)")
+gmd_backbone = M3GTools.gmdget(topology,gmd_solute,data="protein",get="protein and (not sidechain)")
 ```
 where `topology` is the topology file for the system, which might be of
 PSF, GRO or any other format which VMD understands.

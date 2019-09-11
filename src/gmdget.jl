@@ -12,8 +12,8 @@ function gmdget(topology :: String, gmd :: Array{}, sel1 :: String, sel2 :: Stri
   # The first selection corresponds the the total solute, the second
   # selection to the section of the solute that will be considered here 
 
-  sel1 = Namd.select(topology,sel1,vmd=vmd)
-  sel2 = Namd.select(topology,sel2,vmd=vmd)
+  sel1 = M3GTools.select(topology,sel1,vmd=vmd)
+  sel2 = M3GTools.select(topology,sel2,vmd=vmd)
 
   # To do so, define a vector that contains the index in "solute" of the atoms
   # of the "backbone" selection. We sum 2 because this will correspond directly

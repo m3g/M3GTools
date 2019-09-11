@@ -1,8 +1,9 @@
 
-module Namd
+module M3GTools
 
   using FortranFiles
   using PDBEnergy
+
   include("./src/Simulation.jl")
 
   include("./src/init.jl")
@@ -17,6 +18,9 @@ module Namd
   include("./src/procrustes.jl")
 
   include("./src/gmdget.jl")
+
+  include("./src/distribution.jl")
+  export distribution
 
   include("./src/version.jl")
 

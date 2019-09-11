@@ -7,7 +7,7 @@ of simulation time
 """
 
 push!(LOAD_PATH,"../../")
-using Namd
+using M3GTools
 
 println(" Loading Plots... ")
 using Plots
@@ -15,7 +15,7 @@ ENV["GKSwstype"]="nul" # This supresses the need of a display while plotting
 
 # Initialize simulation data and path to VMD executable
 println(" Reading simulation data ... ")
-mysim = Namd.init(psf="../simulation_files/structure.psf",
+mysim = M3GTools.init(psf="../simulation_files/structure.psf",
                   log="../simulation_files/example.log")
 
 println(" Plotting... ")

@@ -2,7 +2,7 @@
 # git clone https://github.com/mcubeg/namdjl
 #
 
-# In this example we compute the energy without using the complete Namd.jl package, and
+# In this example we compute the energy without using the complete M3GTools.jl package, and
 # without calling VMD in background
 
 # Path to PDBEnergy module

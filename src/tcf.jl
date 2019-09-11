@@ -73,7 +73,7 @@ function tcf(simulation :: Simulation,
   end
 
   # Go to first frame, to be sure
-  Namd.firstframe(simulation)
+  M3GTools.firstframe(simulation)
 
   p = Progress(lastframe,5," Reading DCD file: ")
   for iframe in 1:lastframe
@@ -82,14 +82,14 @@ function tcf(simulation :: Simulation,
     
     # Reading dcd data for this frame
 
-    sides, xdcd, ydcd, zdcd = Namd.nextframe(simulation)
+    sides, xdcd, ydcd, zdcd = M3GTools.nextframe(simulation)
 
     # Computing the absorption and emission vectors
 
-    cm_abs_start = Namd.cm(abs_start,simulation,xdcd,ydcd,zdcd)
-    cm_abs_end = Namd.cm(abs_end,simulation,xdcd,ydcd,zdcd)
-    cm_emi_start = Namd.cm(emi_start,simulation,xdcd,ydcd,zdcd)
-    cm_emi_end = Namd.cm(emi_end,simulation,xdcd,ydcd,zdcd)
+    cm_abs_start = M3GTools.cm(abs_start,simulation,xdcd,ydcd,zdcd)
+    cm_abs_end = M3GTools.cm(abs_end,simulation,xdcd,ydcd,zdcd)
+    cm_emi_start = M3GTools.cm(emi_start,simulation,xdcd,ydcd,zdcd)
+    cm_emi_end = M3GTools.cm(emi_end,simulation,xdcd,ydcd,zdcd)
 
     # If align is set, move all vectors according to the alignment of the
     # selected atoms
@@ -122,7 +122,7 @@ function tcf(simulation :: Simulation,
         xalign[nalign+4,j] = cm_emi_end[j]
       end
  
-      xaligned = Namd.procrustes(xalign,xalign_ref)
+      xaligned = M3GTools.procrustes(xalign,xalign_ref)
 
       for j in 1:3
         cm_abs_start[j] = xaligned[nalign+1,j] 
