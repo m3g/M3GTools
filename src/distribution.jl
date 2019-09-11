@@ -41,11 +41,7 @@ function distribution(v;nbins=nothing,step=nothing,steptype="relative",vmin=noth
   # Normalize
 
   # Such that the integral is 1
-  ntotal = 0
-  for i in 1:nbins
-    ntotal = ntotal + df[i]
-  end
-  df = df / ntotal
+  df = df / ndata
 
   return x, df
 
