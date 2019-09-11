@@ -1,22 +1,28 @@
-function distribution(v;nbins=Nothing,step=Nothing,vmin=Nothing,vmax=Nothing,norm=0)
+#
+# Computes the distribution function of a list of values
+#
+
+function distribution(v;nbins=nothing,step=nothing,steptype="relative",vmin=nothing,vmax=nothing)
 
   ndata = length(v)
 
-  if vmin == Nothing
+  if vmin == nothing
     vmin = minimum(v)
   end
-  if vmax == Nothing
+  if vmax == nothing
     vmax = maximum(v)
   end
-  if step == Nothing && nbins == Nothing
-    step = (vmax - vmin)/(ndata/50)
-    nbins = round(Int64,(vmax-vmin)/step)
-  elseif step != Nothing && nbins == Nothing
-    nbins = round(Int64,(vmax-vmin)/step)
-  elseif step == Nothing && nbins != Nothing
-    step = (vmax-vmin)/nbins
+  if nbins == nothing
+    nbins = 100
   end
-  
+  if step == nothing
+    step = (vmax - vmin)/nbins
+  elseif step != nothing && steptype == "relative"
+     step = step*(vmax-vmin)/nbins
+  elseif step != nothing && steptype != "absolute"
+    error(" steptype must be \"relative\" or \"absolute\"")
+  end
+
   x = Vector{Float64}(undef,nbins)
   df = Vector{Float64}(undef,nbins)
 
@@ -34,6 +40,7 @@ function distribution(v;nbins=Nothing,step=Nothing,vmin=Nothing,vmax=Nothing,nor
 
   # Normalize
 
+  # Such that the integral is 1
   ntotal = 0
   for i in 1:nbins
     ntotal = ntotal + df[i]
