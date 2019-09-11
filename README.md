@@ -1,4 +1,4 @@
-## Distribution function
+## Density function
 
 Given a list of values, for example, 
 ```
@@ -21,7 +21,8 @@ x, y = density(v,step=5)
 ```
 and adjust the `step` parameter to obtain a nice density function, considering that
 at each `x` the `y` value will contain the probability of finding a value of `v`
-within `[x-step,x+step]`, where `step=5*(vmax-vmin)/100` (which only sums up to 1.0 if
-`step = (vmax-vmin)/nbins`, that is, if there is no overlap between the counts. 
+within `[x-step,x+step]`, where `step=5*(vmax-vmin)/nbins` (which only sums up to 1.0 if
+`step = (vmax-vmin)/nbins`, that is, if there is no overlap between the counts). By default, 
+`nbins=100`. 
 
 
