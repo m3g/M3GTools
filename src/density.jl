@@ -35,8 +35,8 @@ function density(v;nbins=nothing,step=nothing,steptype="relative",vmin=nothing,v
         nv = nv + 1
       end
     end
-    binsize = max(vmax,x[i]+step/2) - min(vmin,x[i]-step/2)
-    df[i] = nv/binsize
+    binsize = min(vmax,x[i]+step/2) - max(vmin,x[i]-step/2)
+    df[i] = nv/(binsize*ndata)
   end
 
   return x, df
