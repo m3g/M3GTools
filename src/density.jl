@@ -1,8 +1,8 @@
 #
-# Computes the distribution function of a list of values
+# Computes the density function of a list of values
 #
 
-function distribution(v;nbins=nothing,step=nothing,steptype="relative",vmin=nothing,vmax=nothing)
+function density(v;nbins=nothing,step=nothing,steptype="relative",vmin=nothing,vmax=nothing)
 
   ndata = length(v)
 
@@ -35,13 +35,9 @@ function distribution(v;nbins=nothing,step=nothing,steptype="relative",vmin=noth
         nv = nv + 1
       end
     end
-    df[i] = nv
+    binsize = max(vmax,x[i]+step/2) - min(vmin,x[i]-step/2)
+    df[i] = nv/binsize
   end
-
-  # Normalize
-
-  # Such that the integral is 1
-  df = df / ndata
 
   return x, df
 

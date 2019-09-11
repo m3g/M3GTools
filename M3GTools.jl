@@ -19,8 +19,8 @@ module M3GTools
 
   include("./src/gmdget.jl")
 
-  include("./src/distribution.jl")
-  export distribution
+  include("./src/density.jl")
+  export density
 
   include("./src/version.jl")
 
