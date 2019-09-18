@@ -17,10 +17,13 @@ function density(v;nbins=nothing,step=nothing,steptype="relative",vmin=nothing,v
   end
   if step == nothing
     step = (vmax - vmin)/nbins
-  elseif step != nothing && steptype == "relative"
+  else
+    if steptype == "relative"
      step = step*(vmax-vmin)/nbins
-  elseif step != nothing && steptype != "absolute"
-    error(" steptype must be \"relative\" or \"absolute\"")
+    # By default, the step size is absolute
+    elseif steptype != "absolute"
+      error(" steptype must be \"relative\" or \"absolute\"")
+    end
   end
 
   x = Vector{Float64}(undef,nbins)
