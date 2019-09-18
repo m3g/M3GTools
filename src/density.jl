@@ -2,7 +2,7 @@
 # Computes the density function of a list of values
 #
 
-function density(v;nbins=nothing,step=nothing,steptype="relative",vmin=nothing,vmax=nothing)
+function density(v;nbins=nothing,step=nothing,steptype="absolute",vmin=nothing,vmax=nothing)
 
   ndata = length(v)
 
@@ -18,9 +18,9 @@ function density(v;nbins=nothing,step=nothing,steptype="relative",vmin=nothing,v
   if step == nothing
     step = (vmax - vmin)/nbins
   else
-    if steptype == "relative"
-     step = step*(vmax-vmin)/nbins
     # By default, the step size is absolute
+    if steptype == "relative"
+      step = step*(vmax-vmin)/nbins
     elseif steptype != "absolute"
       error(" steptype must be \"relative\" or \"absolute\"")
     end
