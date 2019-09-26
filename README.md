@@ -1,3 +1,15 @@
+# M3GTools
+
+Install with
+
+`] add M3GTools`
+
+use with
+
+`using M3GTools`
+
+See the examples.
+
 ## Density function
 
 Given a list of values, for example, 
