@@ -6,7 +6,6 @@ of simulation time
 
 """
 
-push!(LOAD_PATH,"../../")
 using M3GTools
 
 println(" Loading Plots... ")

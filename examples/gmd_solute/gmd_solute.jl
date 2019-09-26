@@ -4,8 +4,6 @@ Computing GMD contributions for the parts of the solute
 
 """
 
-push!(LOAD_PATH,"../../")
-
 using M3GTools
 using DelimitedFiles
 

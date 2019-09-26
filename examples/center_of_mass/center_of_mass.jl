@@ -5,7 +5,6 @@ are computed, and the difference between the z-coordinates of them is ploted.
 
 """
 
-push!(LOAD_PATH,"../../")
 using M3GTools
 
 println(" Loading Plots... ")

@@ -2,9 +2,6 @@
 # git clone https://github.com/mcubeg/namdjl
 #
 
-# Path to M3GTools
-push!(LOAD_PATH, "../../");
-
 # Load M3GTools
 using M3GTools
 

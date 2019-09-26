@@ -5,7 +5,6 @@ rotations of the side chain of a trp residue
 
 """
 
-push!(LOAD_PATH,"../../")
 using M3GTools
 
 println(" Loading Plots... ")
