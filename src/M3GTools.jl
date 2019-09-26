@@ -3,37 +3,37 @@ module M3GTools
 
   using FortranFiles
 
-  include("./src/Atom.jl")
+  include("./Atom.jl")
   export Atom
 
-  include("./src/Bond.jl")
+  include("./Bond.jl")
   export Bond
 
-  include("./src/Angle.jl")
+  include("./Angle.jl")
   export Angle
 
-  include("./src/Dihedral.jl")
+  include("./Dihedral.jl")
   export Dihedral
 
-  include("./src/Improper.jl")
+  include("./Improper.jl")
   export Improper
 
-  include("./src/readpsf.jl") 
+  include("./readpsf.jl") 
   export readpsf
 
-  include("./src/readprm.jl") 
+  include("./readprm.jl") 
   export readprm!
 
-  include("./src/getpdbcoords.jl")
+  include("./getpdbcoords.jl")
   export getpdbcoords!
 
-  include("./src/coulomb.jl")
+  include("./coulomb.jl")
   export coulomb
 
-  include("./src/vdw.jl")
+  include("./vdw.jl")
   export vdw
 
-  include("./src/nhbonds.jl")
+  include("./nhbonds.jl")
   export nhbonds
 
   include("./Simulation.jl")
@@ -51,7 +51,7 @@ module M3GTools
 
   include("./gmdget.jl")
 
-  include("./src/density.jl")
+  include("./density.jl")
   export density
 
   include("./version.jl")
