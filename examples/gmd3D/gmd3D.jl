@@ -5,7 +5,6 @@
 """
 
 using M3GTools ; const m3g = M3GTools
-using DelimitedFiles
 
 mysim = m3g.init(psf="../gmd_solute/gmdfiles/structure.psf",
                  pdb="../gmd_solute/gmdfiles/structure.pdb",

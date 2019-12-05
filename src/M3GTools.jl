@@ -1,6 +1,7 @@
 
 module M3GTools
 
+  using DelimitedFiles
   using FortranFiles
   using PDBTools # from https://github.com/mcubeg/PDBTools
 
