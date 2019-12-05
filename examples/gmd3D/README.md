@@ -78,10 +78,10 @@ to the MDDF at each distance. For example, if we plot the points for which the o
 less than 2.0, we get the positions around the protein where the solvent molecules
 formed hydrogen bonds: 
 
-<p align="center">
-<img src="https://github.com/mcubeg/M3GTools/raw/master/examples/gmd3D/figures/occup_lt_2.png">
-<img src="https://github.com/mcubeg/M3GTools/raw/master/examples/gmd3D/figures/occup_lt_2_atomtype.png">
-<img src="https://github.com/mcubeg/M3GTools/raw/master/examples/gmd3D/figures/occup_lt_2_resname.png">
+<p align="center" width=100%>
+<img width=30% src="https://github.com/mcubeg/M3GTools/raw/master/examples/gmd3D/figures/occup_lt_2.png">
+<img width=30% src="https://github.com/mcubeg/M3GTools/raw/master/examples/gmd3D/figures/occup_lt_2_atomtype.png">
+<img width=30% src="https://github.com/mcubeg/M3GTools/raw/master/examples/gmd3D/figures/occup_lt_2_resname.png">
 </p>
 
 (Figures made with VMD, using the "QuickSurf" representation for the grid). 
