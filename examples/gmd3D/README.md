@@ -95,12 +95,19 @@ position. Finally, in the figure of the right we paint the grid by the
 residue type involved in the interactions (for example: Yellow: Serine
 and Red: Aspartic acid). 
 
+Next, we compare the total MDDF with a representation of the density in 3D. In the plot of the left, 
+we see that the MDDF displays one very distinct peak at about 2.5 Angs, and a less structured
+solvation shell from about 3 to about 6 Angs. In the figure on the right
+below we use the 3D representation of the MDDF to obtain a visual picture of
+these two solvation shells:  
 
+<p align="center" width=100%>
+<img width=30% src="https://github.com/mcubeg/M3GTools/raw/master/examples/gmd3D/figures/gr.png">
+<img width=30% src="https://github.com/mcubeg/M3GTools/raw/master/examples/gmd3D/figures/occup_gt_3_lt_6.png">
+</p>
 
-
-
-
-
-
-
+The blue dots represent the grid points where contributions are found to
+the first peak of the MDDF (by selecting occupancy < 3), and the
+surfaces represent the regions with important contributions for the
+second peak (by selecting occupancy > 3 and occupancy < 6). 
 
