@@ -79,9 +79,9 @@ less than 2.0, we get the positions around the protein where the solvent molecul
 formed hydrogen bonds: 
 
 <p align="center">
-<img src="https://github.com/mcubeg/namdjl/raw/master/examples/gmd3D/figures/occup_lt_2.png">
-<img src="https://github.com/mcubeg/namdjl/raw/master/examples/gmd3D/figures/occup_lt_2_atomtype.png">
-<img src="https://github.com/mcubeg/namdjl/raw/master/examples/gmd3D/figures/occup_lt_2_resname.png">
+<img src="https://github.com/mcubeg/M3GTools/raw/master/examples/gmd3D/figures/occup_lt_2.png">
+<img src="https://github.com/mcubeg/M3GTools/raw/master/examples/gmd3D/figures/occup_lt_2_atomtype.png">
+<img src="https://github.com/mcubeg/M3GTools/raw/master/examples/gmd3D/figures/occup_lt_2_resname.png">
 </p>
 
 (Figures made with VMD, using the "QuickSurf" representation for the grid). 
