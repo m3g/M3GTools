@@ -47,7 +47,7 @@ in any visualization package:
 
 ```                   
 output = "./gmd3D.pdb"
-gmd3D_write(mysim,solute,gmd_solute_file,output,)
+gmd3D_write(mysim,solute,gmd_solute_file,output)
 ```                   
 
 The PDB file generated has the following information, for example:
