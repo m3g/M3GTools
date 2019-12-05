@@ -1,4 +1,4 @@
-## GMD 3D: Writes a three-dimensional (3D) representation of the minimum-distance distribution
+## GMD 3D: Three-dimensional (3D) representation of the minimum-distance distribution
 
 In this example we show how to represent the MDDF in 3D, to visualize the
 distribution on top of the solute structure.
