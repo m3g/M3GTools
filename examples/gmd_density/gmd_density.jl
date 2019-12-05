@@ -17,7 +17,8 @@ mysim = m3g.init(psf="../gmd_solute/gmdfiles/structure.psf",
 
 # Read GMD file corresponding to solute contributions
 println(" Reading GMD solute contribution file... ")
-gmd_solute = readdlm("../gmd_solute/gmdfiles/gmd-GMD_ATOM_SOLUTE_CONTRIB.dat",comments=true,comment_char='#')
+gmd_solute_file = "../gmd_solute/gmdfiles/gmd-GMD_ATOM_SOLUTE_CONTRIB.dat"
+gmd_solute = readdlm(gmd_solute_file,comments=true,comment_char='#')
 
 # The distance is the first column of the gmd file, and the total gmd is the second column:
 d = gmd_solute[:,1]
@@ -28,7 +29,7 @@ protein = m3g.select(mysim,"protein")
 include("./Density.jl")
 include("./setgrid.jl")
 
-grid = setgrid(mysim,protein)
+d = density3D(mysim,protein,gmd_solute_file)
 
 ## Of course, you can save the data for further analysis:
 #

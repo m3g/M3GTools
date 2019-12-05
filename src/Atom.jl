@@ -9,6 +9,7 @@ struct Atom
   segname :: String
   type :: String
   element :: String
+  chain :: String
 
   charge :: Float64
   mass :: Float64

@@ -56,5 +56,7 @@ module M3GTools
 
   include("./version.jl")
 
+  hello() = println("hello 3")
+
 end
 

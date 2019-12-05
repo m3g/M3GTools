@@ -165,7 +165,32 @@ function density3D(mysim,solute,gmd_solute_file;
     density3D[i] = Density(density[i].x,density[i].atom,density[i].dmin,density[i].rho)
   end
   
-  return density3D
+  return filter( x -> x.rho > 0. , density3D )
+
+end
+
+using PDBTools # From https://github.com/mcubeg/PDBTools
+
+function write_density3D(mysim,density3D,file)
+
+  open(file,"w")
+  n = length(density3D)
+  for i in 1:n
+    iat = density3D[i].atom
+    name = mysim.atoms[iat].name
+    resname = mysim.atoms[iat].resname
+    chain = mysim.atoms[iat].chain
+    resnum = mysim.atoms[iat].resid
+    x = density3D[i].x[1]
+    y = density3D[i].x[2]
+    z = density3D[i].x[3]
+    b = density3D[i].rho
+    occup = density3D[i].dmin
+    model = 0
+    atom = PDBTools.Atom(i,name,resname,chain,resnum,x,y,z,b,occup,model)
+    println(file,PDBTools.write_atom(atom))
+  end
+  close(file)
 
 end
 
