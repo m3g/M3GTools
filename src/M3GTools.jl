@@ -2,6 +2,7 @@
 module M3GTools
 
   using FortranFiles
+  using PDBTools # from https://github.com/mcubeg/PDBTools
 
   include("./Atom.jl")
   export Atom
@@ -55,8 +56,13 @@ module M3GTools
   export density
 
   include("./version.jl")
-
-  hello() = println("hello 3")
+ 
+  # For gmd3D
+  include("./GMD3DGrid.jl")
+  include("./gmd3D_setgrid.jl")
+  include("./gmd3D.jl")
+  include("./gmd3D_write.jl")
+  export gmd3D, gmd3D_write
 
 end
 

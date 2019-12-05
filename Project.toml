@@ -6,6 +6,7 @@ version = "0.1.0"
 [deps]
 FortranFiles = "c58ffaec-ab22-586d-bfc5-781a99fd0b10"
 LinearAlgebra = "37e2e46d-f89d-539d-b4ee-838fcccc9c8e"
+PDBTools = "e29189f1-7114-4dbd-93d0-c5673a921a58"
 Printf = "de0858da-6303-5e67-8744-51eddeeeb8d7"
 ProgressMeter = "92933f4c-e287-5a05-a399-4b506db050ca"
 Random = "9a3f8284-a2c9-5f02-9a11-845980a1fd5c"
