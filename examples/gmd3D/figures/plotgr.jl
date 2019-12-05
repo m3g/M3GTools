@@ -8,9 +8,9 @@ r = data[:,1]
 g = data[:,2]
 
 plot(r,g,label="",linewidth=2)
-plot(xlabel="r / Angstroms",ylabel="MDDF")
+plot!(xlabel="r / Angstroms",ylabel="MDDF")
 
-plot(size=(400,400))
+plot!(size=(300,300))
 
-savefig("./plot.pdf")
+savefig("./gr.pdf")
 
