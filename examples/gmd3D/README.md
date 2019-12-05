@@ -35,13 +35,13 @@ In this case, the solute is the protein in the system:
 solute = m3g.select(mysim,"protein")
 ```                   
 
-This is the name of the file containing the contributions of the solute atoms
-to the MDDF:
+The name of the file containing the contributions of the solute atoms
+to the MDDF is given here by:
 ```                   
 gmd_solute_file = "../gmd_solute/gmdfiles/gmd-GMD_ATOM_SOLUTE_CONTRIB.dat"
 ```                   
 
-Given the above data, just call this function to obtain a 3D representation
+Given the above data, just call the following function to obtain a 3D representation
 of the MDDF, which might be loaded with the protein structure
 in any visualization package: 
 
@@ -86,7 +86,8 @@ formed hydrogen bonds:
 
 (Figures made with VMD, using the "QuickSurf" representation for the grid). 
 
-In the figure of the left above, from blue to red see the position that contribute more to the hydrogen-bonding
+In the figure of the left above, from blue to red we 
+see the positions that contribute more to the hydrogen-bonding
 peak of the MDDF, because each point is colored by its B-factor. In the
 figure of the center we show which type of protein atom is involved in
 the interactions (red: Oxygen, white: Hydrogen), and thus the
