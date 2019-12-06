@@ -4,7 +4,7 @@ In this example we show how to represent the MDDF in 3D, to visualize the
 distribution on top of the solute structure.
 
 The MDDF must be computed with the GMD module of the MDAnalysis suite of
-packages (version 19.148 or greater), which is available here:
+packages (important: version 19.340 from Dec 6th, 2019, or greater, is required), which is available here:
 
 http://leandro.iqm.unicamp.br/mdanalysis/gmd
 
