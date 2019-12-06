@@ -19,6 +19,7 @@ function gmd3D(mysim :: Simulation, solute :: Vector{Int64}, gmd_solute_file :: 
 
   icolumn = Vector{Int64}(undef,length(solute))
 
+  legacy = false
   file = open(gmd_solute_file,"r")
   for line in eachline(file)
     if line[1:1] != "#"
@@ -28,11 +29,20 @@ function gmd3D(mysim :: Simulation, solute :: Vector{Int64}, gmd_solute_file :: 
       continue
     end
     data = split(line)
-    iat = parse(Int64,data[3])
+    try
+      iat = parse(Int64,data[3])
+    catch
+      iat = parse(Int64,data[2])
+      legacy = true
+    end
     icol = parse(Int64,data[2]) + 2
     icolumn[iat] = icol
   end
   close(file)
+  if legacy
+    println(" Warning: Reading legacy GMD output (previous to 19.340) ")
+    println("          if the atoms of the solute are not the first atoms, you may have problems.")
+  end
   
   # Now, what we need to do is to, for each point in the grid, find the corresponding
   # atom in the gmd_solute table, and interpolate the gmd provided at the distance dmin
