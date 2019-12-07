@@ -29,6 +29,7 @@ function gmd3D(mysim :: Simulation, solute :: Vector{Int64}, gmd_solute_file :: 
       continue
     end
     data = split(line)
+    iat = 0
     try
       iat = parse(Int64,data[3])
     catch
