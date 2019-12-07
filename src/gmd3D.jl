@@ -42,7 +42,7 @@ function gmd3D(mysim :: Simulation, solute :: Vector{Int64}, gmd_solute_file :: 
   close(file)
   if legacy
     println(" Warning: Reading legacy GMD output (previous to 19.340) ")
-    println("          if the atoms of the solute are not the first atoms, you may have problems.")
+    println("          If the atoms of the solute are not the first consecutive atoms, you may have problems.")
   end
   
   # Now, what we need to do is to, for each point in the grid, find the corresponding
