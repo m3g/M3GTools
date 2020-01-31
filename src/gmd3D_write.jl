@@ -4,17 +4,30 @@
 
 # If called already with the grid of the gmd3D computed
 
-function gmd3D_write(mysim :: Simulation, grid :: Vector{GMD3DGrid}, output :: String)
+function gmd3D_write(mysim :: Simulation, grid :: Vector{GMD3DGrid}, output :: String, scale=nothing)
 
   n = length(grid)
-  minrho = grid[1].rho
-  maxrho = grid[1].rho
-  for i in 2:n
-    minrho = min(minrho,grid[i].rho)
-    maxrho = max(maxrho,grid[i].rho)
+
+  if scale == nothing
+    minrho = grid[1].rho
+    maxrho = grid[1].rho
+    for i in 2:n
+      minrho = min(minrho,grid[i].rho)
+      maxrho = max(maxrho,grid[i].rho)
+    end
+  else
+    minrho = scale[1]
+    maxrho = scale[2]
   end
 
   file = open(output,"w")
+  pritnln(file,"REMARK  3D representation of MDDF density ")
+  pritnln(file,"REMARK  ")
+  pritnln(file,"REMARK  Occupancy column contains distance to solute. ")
+  pritnln(file,"REMARK  B-factor column contains the scaled density, such that 99.9 is the maximum ")
+  pritnln(file,"REMARK  density obsered and 0. is the minimum density observed. The actual limits are: ")
+  pritnln(file,"REMARK  Minimum density: $maxrho")
+  pritnln(file,"REMARK  Maximum density: $maxrho")
   for i in 1:n
     iat = grid[i].atom
     name = mysim.atoms[iat].name
