@@ -21,13 +21,13 @@ function gmd3D_write(mysim :: Simulation, grid :: Vector{GMD3DGrid}, output :: S
   end
 
   file = open(output,"w")
-  pritnln(file,"REMARK  3D representation of MDDF density ")
-  pritnln(file,"REMARK  ")
-  pritnln(file,"REMARK  Occupancy column contains distance to solute. ")
-  pritnln(file,"REMARK  B-factor column contains the scaled density, such that 99.9 is the maximum ")
-  pritnln(file,"REMARK  density obsered and 0. is the minimum density observed. The actual limits are: ")
-  pritnln(file,"REMARK  Minimum density: $maxrho")
-  pritnln(file,"REMARK  Maximum density: $maxrho")
+  println(file,"REMARK  3D representation of MDDF density ")
+  println(file,"REMARK  ")
+  println(file,"REMARK  Occupancy column contains distance to solute. ")
+  println(file,"REMARK  B-factor column contains the scaled density, such that 99.9 is the maximum ")
+  println(file,"REMARK  density obsered and 0. is the minimum density observed. The actual limits are: ")
+  println(file,"REMARK  Minimum density: $maxrho")
+  println(file,"REMARK  Maximum density: $maxrho")
   for i in 1:n
     iat = grid[i].atom
     name = mysim.atoms[iat].name
