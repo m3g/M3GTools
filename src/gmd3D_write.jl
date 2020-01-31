@@ -4,7 +4,7 @@
 
 # If called already with the grid of the gmd3D computed
 
-function gmd3D_write(mysim :: Simulation, grid :: Vector{GMD3DGrid}, output :: String, scale=nothing)
+function gmd3D_write(mysim :: Simulation, grid :: Vector{GMD3DGrid}, output :: String; scale=nothing)
 
   n = length(grid)
 
@@ -53,12 +53,12 @@ function gmd3D_write(mysim :: Simulation,
                      solute :: Vector{Int64}, 
                      gmd_solute_file :: String, 
                      output :: String;
-                     dmax = 7.0, dmin = 1.0, step = 0.5)
+                     dmax = 7.0, dmin = 1.0, step = 0.5, scale=nothing)
 
   grid = gmd3D(mysim, solute, gmd_solute_file, 
                dmax = 7.0, dmin = 1.0, step = 0.5)
 
-  gmd3D_write(mysim, grid, output)
+  gmd3D_write(mysim, grid, output, scale=scale)
 
 end
 
