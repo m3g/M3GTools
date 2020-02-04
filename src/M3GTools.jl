@@ -55,6 +55,8 @@ module M3GTools
 
   include("./density.jl")
   export density
+  include("./movingaverage.jl")
+  export movingaverage 
 
   include("./version.jl")
  
