@@ -34,13 +34,13 @@ function wrapone!(i,sides,x,y,z,center)
   y[i] = y[i]%sides[2]
   z[i] = z[i]%sides[3]
 
-  if x[i] > sides[1]/2 ; x[i] = x[i] - sides[1] ; end
-  if y[i] > sides[2]/2 ; y[i] = y[i] - sides[2] ; end
-  if z[i] > sides[3]/2 ; z[i] = z[i] - sides[3] ; end
+  #if x[i] > sides[1]/2 ; x[i] = x[i] - sides[1] ; end
+  #if y[i] > sides[2]/2 ; y[i] = y[i] - sides[2] ; end
+  #if z[i] > sides[3]/2 ; z[i] = z[i] - sides[3] ; end
 
-  if x[i] < -sides[1]/2 ; x[i] = x[i] + sides[1] ; end
-  if y[i] < -sides[2]/2 ; y[i] = y[i] + sides[2] ; end
-  if z[i] < -sides[3]/2 ; z[i] = z[i] + sides[3] ; end
+  #if x[i] < -sides[1]/2 ; x[i] = x[i] + sides[1] ; end
+  #if y[i] < -sides[2]/2 ; y[i] = y[i] + sides[2] ; end
+  #if z[i] < -sides[3]/2 ; z[i] = z[i] + sides[3] ; end
 
   x[i] = x[i] + center[1]
   y[i] = y[i] + center[2]

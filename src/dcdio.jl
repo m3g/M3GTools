@@ -181,3 +181,23 @@ function writedcd(natoms,nframes,dcdaxis,sides,x,y,z;filename="Namdjl_DCDTEMP.dc
 
 end
 
+#
+# Function that writes a restart file for NAMD (.coor files)
+#
+# Does not work either
+
+function writecoor(natoms,x,y,z;filename="M3G.coor")
+  coortemp = FortranFile(filename,"w",marker=RECMRK8B)
+  write(coortemp,Int64(natoms))
+  xyz = Vector{Float64}(undef,3*natoms)
+  j = 1
+  for i in 1:natoms
+    xyz[j] = x[i]
+    xyz[j+1] = y[i]
+    xyz[j+2] = z[i]
+    j = j + 3
+  end
+  write(coortemp,xyz)
+  close(coortemp)
+end
+
