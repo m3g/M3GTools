@@ -184,11 +184,9 @@ end
 #
 # Function that writes a restart file for NAMD (.coor files)
 #
-# Does not work either
 
 function writecoor(natoms,x,y,z;filename="M3G.coor")
-  coortemp = FortranFile(filename,"w",marker=RECMRK8B)
-  write(coortemp,Int64(natoms))
+  coortemp = open(filename,"w")
   xyz = Vector{Float64}(undef,3*natoms)
   j = 1
   for i in 1:natoms
@@ -197,7 +195,7 @@ function writecoor(natoms,x,y,z;filename="M3G.coor")
     xyz[j+2] = z[i]
     j = j + 3
   end
-  write(coortemp,xyz)
+  write(coortemp,Int32(natoms),xyz)
   close(coortemp)
 end
 
