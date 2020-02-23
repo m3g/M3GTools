@@ -178,40 +178,91 @@ function tcf(simulation :: Simulation,
 
   end
 
+  return tcf(xabs,xemi,max_dt=maxstep,last_t=lastframe,scaletime=scaletime, r0 = r0, legendre = true)
+
+end
+
+#
+# This function computes the time correlation function of two arrays
+#
+
+function tcf(v1 :: Array, v2 :: Array; max_dt = -1 ,last_t = -1, scaletime = -1., r0 = 1., legendre = false )
+
+  nv1 = size(v1)[1]
+  nv2 = size(v2)[1]
+  if length(size(v1)) == 1
+    dim = 1
+  elseif length(size(v1)) == 2
+    dim = size(v1)[2]
+    if size(v2)[2] != dim
+      error(" For tcf the second and further dimensions of the two vector must be same. ")
+    end
+  else
+    error(" tcf function only accepts two-dimensional arrays. ")
+  end
+
+  if last_t == -1
+    last_t = min(nv1,nv2)
+  end
+  if max_dt == -1
+    max_dt = last_t - 1
+  end
+  if scaletime < 0.
+    scaletime = 1.
+  end
+
   # Computing the time-dependent correlation function
  
-  tcf = zeros(maxstep)
-  legendre = zeros(maxstep)
-  t = Vector{Float32}(undef,maxstep)
+  tcf = zeros(max_dt)
+  v1norm = zeros(max_dt)
+  v2norm = zeros(max_dt)
+  legendre_pol = zeros(max_dt)
+  t = Vector{Float32}(undef,max_dt)
 
-  p = Progress(lastframe,5," Computing the tcf: ")
-  for i in 1:lastframe
+  p = Progress(last_t,5," Computing the tcf: ")
+  for i in 1:last_t
 
     next!(p)
+    
+    v1n = 0.
+    for idim in 1:dim
+      v1n = v1n + v1[i,idim]*v1[i,idim]
+    end
 
-    for j in i:min(i+maxstep-1,lastframe)
+    for j in i:min(i+max_dt-1,last_t)
   
       # Computing the internal product of absoprtion and emission vectors
-  
-      int_prod = xabs[i,1]*xemi[j,1] + xabs[i,2]*xemi[j,2] + xabs[i,3]*xemi[j,3]
-  
+
+      int_prod = 0.
+      v2n = 0.
+      for idim in 1:dim
+        int_prod = int_prod + v1[i,idim]*v2[j,idim]
+        v2n = v2n + v2[j,idim]*v2[j,idim]
+      end
+
       # Computing the time correlation function and its second legendre polynomial
   
+      v1norm[j-i+1] = v1norm[j-i+1] + v1n
+      v2norm[j-i+1] = v2norm[j-i+1] + v2n
       tcf[j-i+1] = tcf[j-i+1] + int_prod
-      legendre[j-i+1] = legendre[j-i+1] + 0.5*( 3. * int_prod^2 - 1. )
+      legendre_pol[j-i+1] = legendre_pol[j-i+1] + 0.5*( 3. * int_prod^2 - 1. )
   
     end
   end
 
-  p = Progress(maxstep,5," Final scaling: ")
-  for i in 1:maxstep
+  p = Progress(max_dt,5," Final scaling: ")
+  for i in 1:max_dt
     next!(p)
-    tcf[i] = tcf[i] / ( lastframe - i + 1 )
-    legendre[i] = legendre[i] / ( lastframe - i + 1 )
+    tcf[i] = tcf[i] / ( sqrt(v1norm[i]*v2norm[i]) )# ( last_t - i + 1 )
+    legendre_pol[i] = legendre_pol[i] / ( last_t - i + 1 )
     t[i] = scaletime*(i-1)
   end
 
-  return t, r0*legendre, tcf
+  if legendre 
+    return t, r0*legendre_pol, tcf
+  else
+    return t, tcf
+  end
 
 end
 
