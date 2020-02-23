@@ -5,8 +5,7 @@ rotations of the side chain of a trp residue
 
 """
 
-#using M3GTools
-include("../../src/M3GTools.jl")
+using M3GTools
 
 println(" Loading Plots... ")
 using Plots
