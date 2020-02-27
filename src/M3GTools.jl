@@ -67,5 +67,8 @@ module M3GTools
   include("./gmd3D_write.jl")
   export gmd3D, gmd3D_write
 
+  # time correlation functions
+  include("./tcorr.jl")
+
 end
 
