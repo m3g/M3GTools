@@ -1,10 +1,53 @@
 #
-# This function computes the time correlation function of two arrays
+# This function computes the time auto-correlation function of a vector
 #
 
-tcorr(x :: Vector) = tcorr(x,x)
+function tcorr(x_in :: Vector{Float64}) 
 
-function tcorr(x_in :: Vector, y_in :: Vector)
+  x = copy(x_in)
+
+  n = size(x)[1]
+
+  # Centralizing at the average 
+
+  xav = 0.
+  @inbounds for i in 1:n
+    xav = xav + x[i]
+  end
+  xav = xav / n
+  @inbounds for i in 1:n
+    x[i] = x[i] - xav
+  end
+  
+  # Computing the time-dependent correlation function
+
+  tcorr = zeros(Float64,n)
+
+  @inbounds for dt in 0:n-1
+    xnorm1 = 0.
+    xnorm2 = 0.
+    for i in 1:n-dt 
+      tcorr[dt+1] = tcorr[dt+1] + x[i]*x[i+dt]
+      xnorm1 = xnorm1 + x[i]^2
+      xnorm2 = xnorm2 + x[i+dt]^2
+    end
+    tcorr[dt+1] = tcorr[dt+1] / sqrt(xnorm1*xnorm2)
+  end
+
+  for i in 1:n
+    x[i] = x[i] + xav
+  end
+
+  lags = collect(0:n-1)
+  return lags, tcorr
+
+end
+
+#
+# This function computes the time correlation function of two vectors
+#
+
+function tcorr(x_in :: Vector{Float64}, y_in :: Vector{Float64})
 
   x = copy(x_in)
   y = copy(y_in)
@@ -29,15 +72,6 @@ function tcorr(x_in :: Vector, y_in :: Vector)
     y[i] = y[i] - xav
   end
   
-  # Computing the time-dependent correlation function
-
-  xsq = Vector{Float64}(undef,n)
-  ysq = Vector{Float64}(undef,n)
-  @inbounds for i in 1:n
-    xsq[i] = x[i]^2
-    ysq[i] = y[i]^2
-  end
-
   tcorr = zeros(Float64,n)
 
   @inbounds for dt in 0:n-1
@@ -45,14 +79,13 @@ function tcorr(x_in :: Vector, y_in :: Vector)
     ynorm = 0.
     for i in 1:n-dt
       tcorr[dt+1] = tcorr[dt+1] + x[i]*y[i+dt]
-      xnorm = xnorm + xsq[i]
-      ynorm = ynorm + ysq[i+dt]
+      xnorm = xnorm + x[i]^2
+      ynorm = ynorm + y[i+dt]^2
     end
     tcorr[dt+1] = tcorr[dt+1] / sqrt(xnorm*ynorm)
   end
 
-  t = collect(1:n)
-
-  return t, tcorr
+  lags = collect(0:n-1)
+  return lags, tcorr
 
 end
