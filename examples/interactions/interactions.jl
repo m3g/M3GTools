@@ -1,5 +1,5 @@
 #
-# git clone https://github.com/mcubeg/namdjl
+# git clone https://github.com/m3g/M3GTools
 #
 
 # Load M3GTools

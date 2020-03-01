@@ -1,5 +1,5 @@
 #
-# git clone https://github.com/mcubeg/namdjl
+# git clone https://github.com/m3g/M3GTools
 #
 
 # In this example we compute the energy without using the complete M3GTools.jl package, and

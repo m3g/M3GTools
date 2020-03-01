@@ -23,11 +23,11 @@ Protein-TMAO MDDF into the contributions of the protein backbone,
 aliphatic, aromatic and polar side chains. 
 
 <p align="center">
-<img src="https://github.com/mcubeg/namdjl/raw/master/examples/gmd_solute/gmdfiles/gmd_total.png">
+<img src="https://github.com/m3g/M3GTools/raw/master/examples/gmd_solute/gmdfiles/gmd_total.png">
 </p>
 
 To generate this data, just follow the example provided in
-<a href=https://github.com/mcubeg/namdjl/blob/master/examples/gmd_solute/gmd_solute.jl>`gmd_solute.jl`</a>. You will need the file created by the GMD module of
+<a href=https://github.com/m3g/M3GTools/blob/master/examples/gmd_solute/gmd_solute.jl>`gmd_solute.jl`</a>. You will need the file created by the GMD module of
 MDAnalysis mentioned above, containing the contribution of each solute
 atom the distribution function. This file, in this example, is called:
 ``` 

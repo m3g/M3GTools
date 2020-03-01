@@ -3,7 +3,7 @@ module M3GTools
 
   using DelimitedFiles
   using FortranFiles
-  using PDBTools # from https://github.com/mcubeg/PDBTools
+  using PDBTools # from https://github.com/m3g/PDBTools
 
   include("./Atom.jl")
   export Atom

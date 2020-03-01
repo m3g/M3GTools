@@ -2,7 +2,7 @@
 
 Install with
 
-`] add https://github.com/mcubeg/M3GTools`
+`] add https://github.com/m3g/M3GTools`
 
 use with
 

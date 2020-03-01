@@ -13,7 +13,7 @@ TMAO, and we computed the MDDF between the protein and TMAO (for more
 details, see: http://pubs.acs.org/doi/abs/10.1021/acs.jctc.7b00599).
 
 To generate this data, just follow the example provided in
-<a href=https://github.com/mcubeg/namdjl/blob/master/examples/gmd3D/gmd3D.jl>`gmd3D.jl`</a>. 
+<a href=https://github.com/m3g/M3GTools/blob/master/examples/gmd3D/gmd3D.jl>`gmd3D.jl`</a>. 
 You will need the file created by the GMD module of
 MDAnalysis mentioned above, containing the contribution of each solute
 atom the distribution function. This file, in this example, is called:
@@ -79,9 +79,9 @@ less than 2.0, we get the positions around the protein where the solvent molecul
 formed hydrogen bonds: 
 
 <p align="center" width=100%>
-<img width=30% src="https://github.com/mcubeg/M3GTools/raw/master/examples/gmd3D/figures/occup_lt_2.png">
-<img width=30% src="https://github.com/mcubeg/M3GTools/raw/master/examples/gmd3D/figures/occup_lt_2_atomtype.png">
-<img width=30% src="https://github.com/mcubeg/M3GTools/raw/master/examples/gmd3D/figures/occup_lt_2_resname.png">
+<img width=30% src="https://github.com/m3g/M3GTools/raw/master/examples/gmd3D/figures/occup_lt_2.png">
+<img width=30% src="https://github.com/m3g/M3GTools/raw/master/examples/gmd3D/figures/occup_lt_2_atomtype.png">
+<img width=30% src="https://github.com/m3g/M3GTools/raw/master/examples/gmd3D/figures/occup_lt_2_resname.png">
 </p>
 
 (Figures made with VMD, using the "QuickSurf" representation for the grid). 
@@ -103,8 +103,8 @@ below we use the 3D representation of the MDDF to obtain a visual picture of
 these two solvation shells:  
 
 <p align="center" width=100%>
-<img width=30% src="https://github.com/mcubeg/M3GTools/raw/master/examples/gmd3D/figures/gr.png">
-<img width=30% src="https://github.com/mcubeg/M3GTools/raw/master/examples/gmd3D/figures/occup_gt_3_lt_6.png">
+<img width=30% src="https://github.com/m3g/M3GTools/raw/master/examples/gmd3D/figures/gr.png">
+<img width=30% src="https://github.com/m3g/M3GTools/raw/master/examples/gmd3D/figures/occup_gt_3_lt_6.png">
 </p>
 
 The blue dots represent the grid points where contributions are found to
