@@ -70,5 +70,8 @@ module M3GTools
   # time correlation functions
   include("./tcorr.jl")
 
+  # compute interpolated data 
+  include("./sample_interpolation.jl")
+
 end
 
