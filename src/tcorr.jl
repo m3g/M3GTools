@@ -24,9 +24,9 @@ function tcorr(x_in :: Vector{Float64})
     xnorm2 = xnorm2 + x[dt+1]^2
     if xnorm1 != 0 || xnorm2 != 0
       tcorr[dt+1] = LinearAlgebra.dot(@view(x[1:n-dt]),@view(x[dt+1:n]))
-      tcorr[dt+1] = 0.
-    else
       tcorr[dt+1] = tcorr[dt+1] / sqrt(xnorm1*xnorm2)
+    else
+      tcorr[dt+1] = 0.
     end
   end
 
