@@ -22,8 +22,12 @@ function tcorr(x_in :: Vector{Float64})
   @inbounds for dt in n-1:-1:0
     xnorm1 = xnorm1 + x[n-dt]^2
     xnorm2 = xnorm2 + x[dt+1]^2
-    tcorr[dt+1] = LinearAlgebra.dot(@view(x[1:n-dt]),@view(x[dt+1:n]))
-    tcorr[dt+1] = tcorr[dt+1] / sqrt(xnorm1*xnorm2)
+    if xnorm1 != 0 || xnorm2 != 0
+      tcorr[dt+1] = LinearAlgebra.dot(@view(x[1:n-dt]),@view(x[dt+1:n]))
+      tcorr[dt+1] = 0.
+    else
+      tcorr[dt+1] = tcorr[dt+1] / sqrt(xnorm1*xnorm2)
+    end
   end
 
   lags = collect(0:n-1)
@@ -62,8 +66,12 @@ function tcorr(x_in :: Vector{Float64}, y_in :: Vector{Float64})
   @inbounds for dt in n-1:-1:0
     xnorm = xnorm + x[n-dt]^2
     ynorm = ynorm + y[dt+1]^2
-    tcorr[dt+1] = LinearAlgebra.dot(@view(x[1:n-dt]),@view(y[dt+1:n]))
-    tcorr[dt+1] = tcorr[dt+1] / sqrt(xnorm*ynorm)
+    if xnorm1 != 0 || xnorm2 != 0
+      tcorr[dt+1] = LinearAlgebra.dot(@view(x[1:n-dt]),@view(y[dt+1:n]))
+      tcorr[dt+1] = tcorr[dt+1] / sqrt(xnorm*ynorm)
+    else
+      tcorr[dt+1] = 0.
+    end
   end
 
   lags = collect(0:n-1)
